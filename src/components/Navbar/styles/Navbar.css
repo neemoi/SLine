@@ -1,0 +1,13 @@
+.navbar {
+    /* #B8D6DC */
+    background-color: #515C6B;
+    color: white;
+}
+
+.navbar-nav .nav-item {
+    margin-right: 50px;
+}
+
+.nav-item {
+    font-size: 16px;
+}

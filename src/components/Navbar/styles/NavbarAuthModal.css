@@ -1,0 +1,19 @@
+.modal-body input[type="email"],
+.modal-body input[type="password"] {
+    width: 250px;
+    font-size: 14px;
+    display: block;
+    margin: 0 auto;
+}
+
+.modal-content {
+    background-color: white;
+}
+
+.modal-body input[type="email"],
+.modal-body input[type="password"] {
+    width: 250px;
+    font-size: 14px;
+    display: block;
+    margin: 0 auto;
+}
