@@ -66,7 +66,7 @@ function Categories() {
                     <div className="row justify-content-center" key={index}>
                         {row.map((category, idx) => (
                             <div className="col-md-3 mb-3" key={idx}>
-                                <Link to={`/category/${category.categoryId}`}>
+                                <Link to={`/subcategory/${category.categoryId}`}>
                                     <div className="card">
                                         <img src={category.categoryImage} className="card-img-top" alt={category.categoryName} />
                                         <div className="card-img-overlay">
