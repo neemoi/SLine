@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import '../styles/ProductsCard.css'; 
+import '../styles/ProductsCardBySubcategory.css'; 
 
 function ProductsCards() {
     const { subcategoryId } = useParams();
@@ -32,7 +32,7 @@ function ProductsCards() {
                 }));
                 setProducts(decodedProducts);
             } catch (error) {
-                console.error('Ошибка при получении данных:', error);
+                console.error('Error receiving data:', error);
             }
         };
 
@@ -44,17 +44,18 @@ function ProductsCards() {
     };
 
     return (
-        <div className="container mt-5" id="all-products">
+        <div className="container mt-3" id="all-products">
             <div className="mt-1 d-flex align-items-center">
                 <Link to="/" className="btn btn-link">Главная страница</Link>
+                <span className="mx-3">{'>'}</span>
+                <Link to="/" className="btn btn-link">Категории</Link>
                 <span className="mx-3">{'>'}</span>
                 <button className="btn btn-link" onClick={goBack}>{subcategoryName}</button>
                 <span className="mx-3">{'>'}</span>
                 <span>{categoryName}</span>
             </div>
             <hr className="mt-1" />
-            <h1>{categoryName}</h1>
-            <div className="row row-cols-1 row-cols-md-4 g-3 justify-content-center mt-5">
+            <div className="row row-cols-1 row-cols-md-3 g-3 justify-content-center mt-4">
                 {products.map(product => (
                     <div key={product.productId} className="col mb-3">
                         <div className="card h-100 product-card">

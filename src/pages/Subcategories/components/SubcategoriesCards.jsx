@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import '../styles/SubcategoriesCard.css'; 
+import { Link, useParams } from 'react-router-dom'; 
 
 function SubcategoriesCards() {
-    const { categoryId } = useParams();
+    const { categoryId } = useParams(); 
     const [subcategories, setSubcategories] = useState([]);
     const [categoryName, setCategoryName] = useState('');
 
@@ -59,6 +58,8 @@ function SubcategoriesCards() {
             <div className="mt-1 d-flex align-items-center">
                 <Link to="/" className="btn btn-link">Главная страница</Link>
                 <span className="mx-3">{'>'}</span>
+                <Link to="/" className="btn btn-link">Категории</Link>
+                <span className="mx-3">{'>'}</span>
                 <span>{categoryName}</span>
             </div>
             <hr className="mt-1" />
@@ -67,7 +68,7 @@ function SubcategoriesCards() {
                     <div className="row row-cols-1 g-3 justify-content-center" key={index}>
                         {row.map(subcategory => (
                             <div key={subcategory.subcategoryId} className="col-md-3 mb-3">
-                                <Link to={`/products/${subcategory.subcategoryId}`}>
+                                <Link to={`/products/${subcategory.subcategoryId}/${categoryId}`}> 
                                     <div className="card">
                                         <img src={subcategory.subcategoryImage} className="card-img-top" alt={subcategory.subcategoryName} />
                                         <div className="card-img-overlay">
