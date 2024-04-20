@@ -1,11 +1,11 @@
 import React from 'react';
-import Carts from './components/Carts.jsx'
+import Cards from './components/SubcategoriesCards.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Subcategories() {
     return (
         <>
-            <Carts />
+            <Cards />
         </>
     );
 }

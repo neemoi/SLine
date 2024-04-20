@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import Main from './pages/Main/Main.jsx';
 import Subcategories from './pages/Subcategories/Subcategories.jsx';
+import Products from './pages/Products/Products.jsx'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/subcategory/:categoryId" element={<Subcategories />} />
+          <Route path="/products/:subcategoryId" element={<Products />} />
         </Routes> 
         <Footer />
       </div>
