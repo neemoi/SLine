@@ -11,7 +11,7 @@
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 2px 2px #eeeeee
+    box-shadow: 0 2px 2px #eeeeee;
 }
 
 .product-card .card-title {
@@ -39,26 +39,27 @@
     font-size: 0.9rem;
 }
 
-.btn-link {
-    color: inherit;
-    text-decoration: none;
-}
-
-.btn-yellow {
+.product-card .btn-yellow {
     border-radius: 50px; 
     border: none;
     color: #000000;
     background-color: #ffb432;
-    height: 70px; 
-    line-height: 70px; 
-    padding: 0 20px; 
-    font-size: 16px; 
+    height: 55px; 
+    line-height: 55px; 
+    padding: 0 20px;
+    font-size: 16px;
+    width: 100%; 
 }
 
-.btn-yellow:hover {
+.product-card .btn-yellow:hover {
     background-color: rgb(255, 204, 110);  
 }
 
 .rounded-pill {
     border-radius: 50px;
+}
+
+.btn-link {
+    color: inherit;
+    text-decoration: none;
 }
