@@ -6,7 +6,8 @@ import Navbar from './components/Navbar/Navbar.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import Main from './pages/Main/Main.jsx';
 import Subcategories from './pages/Subcategories/Subcategories.jsx';
-import Products from './pages/Products/Products.jsx';
+import Products from './pages/Products/ProductsPage.jsx';
+import ProductDetails from './pages/Products/components/ProductDetails/ProductDetails.jsx';
 
 function App() {
   return (
@@ -14,9 +15,10 @@ function App() {
       <div>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/home" element={<Main />} />
           <Route path="/subcategory/:categoryId" element={<Subcategories />} />
           <Route path="/products/:subcategoryId/:categoryId" element={<Products />} />
+          <Route path="/product/:productId" element={<ProductDetails />} /> 
         </Routes> 
         <Footer />
       </div>

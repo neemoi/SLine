@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import ProductsCards from './components/ProductsCards.jsx';
-import SubcategoryMenu from './components/SubcategoryMenu.jsx';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import ProductsCards from './components/Products/ProductsContainer.jsx';
+import SubcategoryMenu from './components/Products/SubcategoryMenu.jsx';
 import { useParams } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Products() {
+function ProductsPage() {
     const { subcategoryId, categoryId } = useParams();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -26,4 +26,4 @@ function Products() {
     );
 }
 
-export default Products;
+export default ProductsPage;

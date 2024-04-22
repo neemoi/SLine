@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Navigation from './Navigation';
-import AllProduct from './AllProduct';
+import Navigation from '../Products/Navigation.jsx';
+import AllProduct from '../Products/AllProduct.jsx';
 
 function ProductsCards({ searchTerm }) {
     const { subcategoryId } = useParams();

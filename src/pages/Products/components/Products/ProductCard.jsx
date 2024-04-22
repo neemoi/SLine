@@ -1,10 +1,11 @@
 import React from 'react';
-import '../styles/ProductsContainer.css';
+import { Link } from 'react-router-dom';
+import '../../styles/ProductsContainer.css';
 
 function ProductCard({ product }) {
     return (
         <div className="col mb-3">
-            <div className="card h-100 product-card">
+            <Link to={`/product/${product.productId}`} className="card h-100 product-card">
                 <img src={product.image} className="card-img-top" alt={product.productName} />
                 <div className="card-body">
                     <h2 className="card-title">{product.productName}</h2>
@@ -12,7 +13,7 @@ function ProductCard({ product }) {
                     <h6 className="card-price">Цена: от 15 до 20р.</h6>
                     <button className="btn btn-yellow rounded-pill w-100 mb-1">В корзину</button>
                 </div>
-            </div>
+            </Link>
         </div>
     );
 }

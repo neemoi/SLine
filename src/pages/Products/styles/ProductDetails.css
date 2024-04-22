@@ -1,0 +1,133 @@
+.product-details-container {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.product-name {
+  text-align: left;
+  font-weight: bold;
+  font-size: 2.7rem; 
+}
+
+.product-image-container {
+  margin-left: 100px; 
+}
+
+.product-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1); 
+}
+
+.product-image:hover {
+  transform: scale(1.3);
+}
+
+.product-info-section {
+  padding-left: 50px; 
+}
+
+.inner-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100px;
+  background-color: rgba(192, 192, 192, 0.1);
+  border-radius: 30px;
+  padding: 10px 50px;
+  transition: transform 0.3s ease; 
+}
+
+.inner-block:hover {
+  transform: translateY(-5px); 
+}
+
+.price-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  transition: transform 0.3s ease; 
+}
+
+.price-container:hover {
+  transform: translateY(-5px);
+}
+
+.btn-primary {
+  background-color: #ffb432; 
+  border: none; 
+  color: #000; 
+  border-radius: 50px; 
+  height: 50px; 
+  width: 170px; 
+  font-size: 1rem; 
+  margin-top: 5px; 
+  cursor: pointer; 
+}
+
+.btn-primary:hover {
+  color: #000; 
+  background-color: rgb(255, 204, 110);  
+}
+
+.product-info {
+  margin-bottom: 40px;
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+}
+
+.product-info:hover {
+  transform: scale(1.02); 
+}
+
+.product-info-title,
+.product-info-item {
+  margin-bottom: 5px; 
+}
+
+.product-info-title {
+  color: #b7b7b7;
+  font-size: 0.9rem; 
+}
+
+.product-info-data {
+  display: flex;
+}
+
+.product-info-item {
+  color: #8e8e8e;
+  font-weight: 600;
+  font-size: 1rem; 
+  margin-right: 28px;
+}
+
+.product-info-label {
+  color: #b7b7b7;
+  font-size: 0.8rem; 
+  margin-right: 20px;
+}
+
+.product-info-labels {
+  display: flex;
+}
+
+.top {
+  margin-top: 150px;
+}
+
+.price-line{
+  color: #858585;
+  font-size: 1.5rem; 
+  margin-top: 16px;
+}
+
+.product-100-g {
+  margin-top: 20px; 
+}
+
+.product-100-g:hover {
+  transform: none; 
+}
