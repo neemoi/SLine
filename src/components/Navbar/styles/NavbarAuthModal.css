@@ -17,3 +17,14 @@
     display: block;
     margin: 0 auto;
 }
+
+.modal-body input[type="text"] {
+    width: 250px;
+    font-size: 14px;
+    display: block;
+    margin: 0 auto;
+}
+
+.auth-modal-button {
+    margin-right: 70px;
+}

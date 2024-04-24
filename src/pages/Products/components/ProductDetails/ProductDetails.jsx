@@ -28,7 +28,7 @@ function ProductDetails() {
                     setCategoryName(category.categoryName);
                 }
                 
-                const priceResponse = await fetch(`https://localhost:7036/Catalog/Products/Warhouse/${productId}`);
+                const priceResponse = await fetch(`https://localhost:7036/Catalog/Products/Warehouse/${productId}`);
                 const priceData = await priceResponse.json();
                 setMinPrice(priceData.minPrice);
                 setMaxPrice(priceData.maxPrice);

@@ -15,7 +15,7 @@ function App() {
       <div>
         <Navbar />
         <Routes>
-          <Route path="/home" element={<Main />} />
+          <Route path="/" element={<Main />} />
           <Route path="/subcategory/:categoryId" element={<Subcategories />} />
           <Route path="/products/:subcategoryId/:categoryId" element={<Products />} />
           <Route path="/product/:productId" element={<ProductDetails />} /> 
