@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import image from '../../../img/name6.png'; 
-import '../styles/Categories.css';
+import '../../../Main/styles/Categories.css';
 
 function Categories() {
     const [categories, setCategories] = useState([]);
@@ -45,23 +44,15 @@ function Categories() {
     };
 
     return (
-        <div className="container">
-            <hr className="mt-5" />
-            <div className="container" id="all-categories" style={{ marginTop: '50px' }}>
-                <div className="row row-cols-1 g-3">
-                    <div className="col">
-                        <Link to='/allProducts'>
-                            <div className="card">
-                                <img src={image} className="card-img-top" alt="Все товары" />
-                                <div className="card-img-overlay">
-                                    <p className="card-text">Все товары</p>
-                                </div>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
+        <div className="container mt-5">
+            <div className="mt-1 d-flex align-items-center">
+                <Link to="/" className="btn btn-link">Главная страница</Link>
+                <span className="mx-3">{'>'}</span>
+                <Link to="/categories" className="btn btn-link">Категории</Link>
             </div>
-            <div className="container" id="categories">
+            <hr className="mt-1" />
+            <div className="container mt-5">
+                <div className="container" id="categories">
                 {splitIntoRows(categories, 4).map((row, index) => (
                     <div className="row justify-content-center" key={index}>
                         {row.map((category, idx) => (
@@ -78,6 +69,7 @@ function Categories() {
                         ))}
                     </div>
                 ))}
+            </div> 
             </div>
         </div>
     );

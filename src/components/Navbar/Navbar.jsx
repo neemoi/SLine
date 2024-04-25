@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import NavbarAuthModal from './NavbarAuthModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -39,10 +40,10 @@ function Navbar() {
                             <NavLink className="nav-link" to='/page1'>О магазинах</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to='/page'>Все товары</NavLink>
+                            <NavLink className="nav-link" to='/allProducts'>Все товары</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to='/page1'>Категории</NavLink>
+                            <NavLink className="nav-link" to='/categories'>Категории</NavLink> 
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to='/page2' onClick={() => handleMenuItemClick('/page2')}>Корзина</NavLink>

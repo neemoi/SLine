@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navigation from '../Products/Navigation.jsx';
-import AllProduct from '../Products/AllProduct.jsx';
+import ProductCard from '../Products/ProductCard.jsx';
 
-function ProductsCards({ searchTerm }) {
+function ProductsContainer({ searchTerm }) {
     const { subcategoryId } = useParams();
     const [products, setProducts] = useState([]);
     const [categoryName, setCategoryName] = useState('');
@@ -51,29 +51,17 @@ function ProductsCards({ searchTerm }) {
         window.history.back();
     };
 
-    const handleAllProductsClick = async () => {
-        try {
-            const response = await fetch('https://localhost:7036/Catalog/Products');
-            const productsData = await response.json();
-
-            const decodedProducts = productsData.map(product => ({
-                ...product,
-                image: atob(product.image)
-            }));
-            
-            setProducts(decodedProducts);
-        } catch (error) {
-            console.error('Error fetching all products:', error);
-        }
-    };
-
     return (
         <div className="container mt-3" id="all-products">
             <Navigation goBack={goBack} categoryName={categoryName} subcategoryName={subcategoryName} />
             <hr className="mt-1" />
-            <AllProduct products={products} handleAllProductsClick={handleAllProductsClick} />
+            <div className="row row-cols-1 row-cols-md-3 g-3 justify-content-center mt-4">
+                {products.map(product => (
+                    <ProductCard key={product.productId} product={product} />
+                ))}
+            </div>
         </div>
     );
 }
 
-export default ProductsCards;
+export default ProductsContainer;
