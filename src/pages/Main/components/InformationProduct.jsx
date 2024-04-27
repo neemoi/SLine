@@ -1,14 +1,14 @@
 import React from 'react';
-import image3 from '../../../img/name3.jpg';
-import image2 from '../../../img/name2.jpg';
+import image from '../../../img/img0.jpg'
 
 function ExampleComponent() {
     return (
         <>
             <div className="container mt-5">
-                <div className="row">
+                <hr className="container mt-5" />
+                <div className="row mt-5">
                     <div className="col-md-6 mb-4">
-                        <img src={image3} alt="Image" className="img-fluid" />
+                        <img src={image} alt="" className="img-fluid" />
                     </div>
                     <div className="col-md-6 mb-4 mt-5" style={{ textAlign: 'center', display: 'flex', alignItems: 'center' }}>
                         <p>Proin sit amet sapien ut mauris fermentum consequat ut vel nisi. In sit amet ipsum eu sapien
@@ -28,7 +28,7 @@ function ExampleComponent() {
                             dignissim sapien, non eleifend odio turpis id nulla.</p>
                     </div>
                     <div className="col-md-6 mb-4 mt-5">
-                        <img src={image2} alt="Image" className="img-fluid" />
+                        <img src={image} alt="" className="img-fluid" />
                     </div>
                 </div>
                 <div className="container mt-5"></div>

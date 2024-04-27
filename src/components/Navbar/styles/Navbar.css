@@ -1,13 +1,30 @@
 .navbar {
     /* #B8D6DC */
-    background-color: #515C6B;
-    color: white;
+    background-color: white;
+    color: black;
 }
 
 .navbar-nav .nav-item {
-    margin-right: 50px;
+    margin-right: 20px; 
+    margin-left: 40px; 
 }
 
 .nav-item {
     font-size: 16px;
+}
+
+.navbar-nav.ml-auto .nav-item {
+    margin-right: 0; 
+}
+
+.navbar-brand {
+    margin-left: 100px; 
+}
+
+.navbar-nav.ml-auto.custom-margin {
+    margin-right: 30px; 
+}
+
+.navbar-nav.ml-auto {
+    margin-right: 50px; 
 }

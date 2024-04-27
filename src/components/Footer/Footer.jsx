@@ -1,5 +1,6 @@
 import React from 'react';
 import { Instagram, Telegram, Twitter, Facebook, Phone, Envelope } from 'react-bootstrap-icons';
+import { Link } from 'react-router-dom';
 
 function Footer() {
     return (
@@ -20,10 +21,10 @@ function Footer() {
                     <div className="col-md-6">
                         <h4 className="mb-3" style={{ fontSize: '1rem' }}>Соцсети</h4>
                         <ul className="list-inline mb-0" style={{ fontSize: '0.8rem' }}>
-                            <li className="list-inline-item me-3"><a href="#"><Instagram /></a></li>
-                            <li className="list-inline-item me-3"><a href="#"><Telegram /></a></li>
-                            <li className="list-inline-item me-3"><a href="#"><Facebook /></a></li>
-                            <li className="list-inline-item"><a href="#"><Twitter /></a></li>
+                            <li className="list-inline-item me-3"><Link to="#"><Instagram /></Link></li>
+                            <li className="list-inline-item me-3"><Link to="#"><Telegram /></Link></li>
+                            <li className="list-inline-item me-3"><Link to="#"><Facebook /></Link></li>
+                            <li className="list-inline-item"><Link to="#"><Twitter /></Link></li>
                         </ul>
                     </div>
                 </div>

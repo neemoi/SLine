@@ -4,7 +4,7 @@ import Categories from './components/Categories.jsx'
 import InformationProduct from './components/InformationProduct.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function MainPage() {
+function Main() {
     return (
         <>
             <BackgroundImq />
@@ -14,4 +14,4 @@ function MainPage() {
     );
 }
 
-export default MainPage;
+export default Main;

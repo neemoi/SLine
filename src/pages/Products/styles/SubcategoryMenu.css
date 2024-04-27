@@ -1,0 +1,105 @@
+.subcategory-menu-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.current-subcategory {
+    font-size: 35px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.category-list {
+    list-style-type: none;
+    margin-top: 100px;
+    padding: 0;
+}
+
+.category-list li {
+    margin-bottom: 15px;
+}
+
+.category-list h2 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s;
+    margin-left: 22px; 
+}
+
+.category-list h2:hover {
+    color: #ffa200;
+}
+
+.category-list h2.active {
+    color: #ffa200;
+}
+
+.subcategory-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1s ease-in-out;
+}
+
+.subcategory-list.expanded {
+    max-height: 500px;
+}
+
+.subcategory-list li {
+    margin-bottom: 10px;
+    padding-left: 40px;
+}
+
+.subcategory-list li.active {
+    font-weight: bold;
+}
+
+.subcategory-link {
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.subcategory-link:hover {
+    text-decoration: underline;
+}
+
+.subcategory-link.active {
+    font-weight: 600; 
+}
+
+.search-box {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding-left: 20px; 
+}
+
+.all-products-button {
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    background-color: #ffb432;
+    color: #000000;
+    font-size: 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.all-products-button:hover {
+    background-color:rgb(255, 204, 110);
+}
