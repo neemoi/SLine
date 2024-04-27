@@ -1,17 +1,17 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import NavbarAuthModal from './NavbarAuthModal';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown } from 'react-bootstrap';
+import NavbarAuthModal from './NavbarAuthModal';
+import { BoxArrowInRight } from 'react-bootstrap-icons';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/Navbar.css';
 
 function Navbar() {
-
     const [show, setShow] = useState(false);
     const user = JSON.parse(localStorage.getItem('user'));
 
     const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const handleLogout = () => {
         localStorage.removeItem('user');
@@ -22,7 +22,7 @@ function Navbar() {
         if (!user) {
             setShow(true);
         } else {
-            window.location.href = path; 
+            window.location.href = path;
         }
     };
 
@@ -62,7 +62,10 @@ function Navbar() {
                     </ul>
                 </div>
                 {!user ? (
-                    <NavbarAuthModal show={show} handleClose={handleClose} />
+                    <div className="navbar-nav ml-auto">
+                        <BoxArrowInRight size={24} onClick={handleShow} />
+                        <NavbarAuthModal show={show} handleClose={handleClose} />
+                    </div>
                 ) : (
                     <div className="navbar-nav ml-auto">
                         <div className="nav-item">

@@ -24,3 +24,7 @@
 .navbar-nav.ml-auto.custom-margin {
     margin-right: 30px; 
 }
+
+.navbar-nav.ml-auto {
+    margin-right: 50px; 
+}

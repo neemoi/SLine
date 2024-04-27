@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, Tab, Tabs } from 'react-bootstrap';
-import { BoxArrowInRight } from 'react-bootstrap-icons';
 import './styles/NavbarAuthModal.css';
 
-function AuthModal() {
-  const [show, setShow] = useState(false);
+function AuthModal({ show, handleClose }) {
   const [activeTab, setActiveTab] = useState('login');
   const [formData, setFormData] = useState({
     loginEmail: '',
@@ -17,9 +15,6 @@ function AuthModal() {
     error: null,
   });
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -31,6 +26,7 @@ function AuthModal() {
 
   const handleSubmit = async (e, url, method, body) => {
     e.preventDefault();
+
     try {
       const response = await fetch(url, {
         method,
@@ -51,119 +47,136 @@ function AuthModal() {
       handleClose();
       window.location.reload();
     } catch (error) {
-      console.error('Error:', error);
-      setFormData({ ...formData, error: 'Произошла ошибка. Пожалуйста, попробуйте еще раз.' });
+      setFormData({
+        ...formData,
+        error: 'Произошла ошибка. Пожалуйста, попробуйте еще раз.',
+      });
     }
   };
 
   return (
-    <>
-      <BoxArrowInRight variant="primary" onClick={handleShow} id="authButton" className="auth-modal-button">
-        Открыть модальное окно
-      </BoxArrowInRight>
-
-      <Modal show={show} onHide={handleClose} centered>
-        <Modal.Body>
-          <Tabs
-            id="authTabs"
-            activeKey={activeTab}
-            onSelect={(tab) => handleTabChange(tab)}
-            className="justify-content-center"
-          >
-            <Tab eventKey="login" title="Вход">
-              <form className="mt-4 text-center" onSubmit={(e) => handleSubmit(e, 'https://localhost:7036/Authorization/Login', 'POST', 
-              { email: formData.loginEmail, password: formData.loginPassword })}>
-                <div className="mb-3 text-start"></div>
-                <div className="mb-3">
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Email"
-                    name="loginEmail"
-                    value={formData.loginEmail}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="mb-3">
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Пароль"
-                    name="loginPassword"
-                    value={formData.loginPassword}
-                    onChange={handleChange}
-                  />
-                </div>
-                <button type="submit" className="btn btn-outline-primary">
-                  Войти
-                </button>
-                {formData.error && <p className="text-danger mt-3">{formData.error}</p>}
-              </form>
-            </Tab>
-            <Tab eventKey="register" title="Регистрация">
-              <form className="mt-4 text-center" onSubmit={(e) => handleSubmit(e, 'https://localhost:7036/Authorization/Register', 'POST', 
-              { userName: formData.registerUserName, phoneNumber: formData.registerPhoneNumber, email: formData.registerEmail, 
-              password: formData.registerPassword, confirmPassword: formData.confirmPassword })}>
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Имя"
-                    name="registerUserName"
-                    value={formData.registerUserName}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Номер телефона"
-                    name="registerPhoneNumber"
-                    value={formData.registerPhoneNumber}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="mb-3">
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Email"
-                    name="registerEmail"
-                    value={formData.registerEmail}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="mb-3">
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Пароль"
-                    name="registerPassword"
-                    value={formData.registerPassword}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="mb-3">
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Подтвердите пароль"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                  />
-                </div>
-                <button type="submit" className="btn btn-outline-primary mt-3">
-                  Зарегистрироваться
-                </button>
-                {formData.error && <p className="text-danger mt-4">{formData.error}</p>}
-              </form>
-            </Tab>
-          </Tabs>
-        </Modal.Body>
-      </Modal>
-    </>
+    <Modal show={show} onHide={handleClose} centered>
+      <Modal.Body>
+        <Tabs
+          id="authTabs"
+          activeKey={activeTab}
+          onSelect={handleTabChange}
+          className="justify-content-center"
+        >
+          <Tab eventKey="login" title="Вход">
+            <form
+              className="mt-4 text-center"
+              onSubmit={(e) =>
+                handleSubmit(e, 'https://localhost:7036/Authorization/Login', 'POST', {
+                  email: formData.loginEmail,
+                  password: formData.loginPassword,
+                })
+              }
+            >
+              <div className="mb-3 text-start"></div>
+              <div className="mb-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Email"
+                  name="loginEmail"
+                  value={formData.loginEmail}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Пароль"
+                  name="loginPassword"
+                  value={formData.loginPassword}
+                  onChange={handleChange}
+                />
+              </div>
+              <button type="submit" className="btn btn-outline-warning">
+                Войти
+              </button>
+              {formData.error && <p className="text-danger mt-3">{formData.error}</p>}
+            </form>
+          </Tab>
+          <Tab eventKey="register" title="Регистрация">
+            <form
+              className="mt-4 text-center"
+              onSubmit={(e) =>
+                handleSubmit(
+                  e,
+                  'https://localhost:7036/Authorization/Register',
+                  'POST',
+                  {
+                    userName: formData.registerUserName,
+                    phoneNumber: formData.registerPhoneNumber,
+                    email: formData.registerEmail,
+                    password: formData.registerPassword,
+                    confirmPassword: formData.confirmPassword,
+                  }
+                )
+              }
+            >
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Имя"
+                  name="registerUserName"
+                  value={formData.registerUserName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Номер телефона"
+                  name="registerPhoneNumber"
+                  value={formData.registerPhoneNumber}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Email"
+                  name="registerEmail"
+                  value={formData.registerEmail}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Пароль"
+                  name="registerPassword"
+                  value={formData.registerPassword}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Подтвердите пароль"
+                  name="confirmPassword"
+                 value={formData.confirmPassword}
+                  onChange={handleChange}
+                />
+              </div>
+              <button type="submit" className="btn btn-outline-warning mt-1">
+                Зарегистрироваться
+              </button>
+              {formData.error && <p className="text-danger mt-4">{formData.error}</p>}
+            </form>
+          </Tab>
+        </Tabs>
+      </Modal.Body>
+    </Modal>
   );
 }
 
