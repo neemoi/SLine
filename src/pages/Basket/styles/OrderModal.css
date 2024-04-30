@@ -1,0 +1,33 @@
+.divider {
+    border-left: 1px solid #ccc; 
+    height: 80%;
+    position: absolute;
+    left: 50%;
+    top: 25px;
+}
+
+.left-col, .right-col {
+    position: relative; 
+}
+
+.left-col {
+    padding-left: 100px; 
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.left-col p {
+    margin-bottom: 7px; 
+}
+
+.left-col h5 {
+    margin-top: 20px; 
+}
+
+.alert-danger {
+    margin-top: 8px; 
+    color: #d9534f; 
+    background-color: #f2dede; 
+    padding: 8px; 
+    border-radius: 4px; 
+}

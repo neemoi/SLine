@@ -8,8 +8,9 @@ import Main from './pages/Main/Main.jsx';
 import Subcategories from './pages/Subcategories/Subcategories.jsx';
 import Products from './pages/Products/ProductsPage.jsx';
 import ProductDetails from './pages/Products/components/ProductDetails/ProductDetails.jsx';
-import AllProductsPage from './pages/Products/AllProductsPage.jsx'; 
-import CategoriesPage from './pages/Products/CategoriesPage.jsx'; 
+import AllProductsPage from './pages/Products/AllProductsPage.jsx';
+import CategoriesPage from './pages/Products/CategoriesPage.jsx';
+import BasketPage from './pages/Basket/BasketPage.jsx'; 
 
 function App() {
   return (
@@ -22,8 +23,9 @@ function App() {
           <Route path="/products/:subcategoryId/:categoryId" element={<Products />} />
           <Route path="/product/:productId" element={<ProductDetails />} /> 
           <Route path="/allProducts" element={<AllProductsPage />} />
-          <Route path="/categories" element={<CategoriesPage />} /> 
-        </Routes> 
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/basket" element={<BasketPage />} />
+        </Routes>
         <Footer />
       </div>
     </Router>

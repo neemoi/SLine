@@ -46,7 +46,7 @@ function Navbar() {
                             <NavLink className="nav-link" to='/categories'>Категории</NavLink> 
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to='/page2' onClick={() => handleMenuItemClick('/page2')}>Корзина</NavLink>
+                            <NavLink className="nav-link" to='/basket' onClick={() => handleMenuItemClick('/basket')}>Корзина</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to='/page3' onClick={() => handleMenuItemClick('/page3')}>Заказы</NavLink>
