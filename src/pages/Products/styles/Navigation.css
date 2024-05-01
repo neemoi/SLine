@@ -1,12 +1,12 @@
 .btn-link-custom {
-    color: black;
-    text-decoration: none;
-  }
-  
-  .btn-link-custom:hover {
-    color: rgb(220, 143, 0);
-  }
-  
-  .btn-link-custom.active {
-    color: rgb(220, 143, 0);
-  }
+  color: black;
+  text-decoration: none;
+}
+
+.btn-link-custom:hover {
+  color: rgb(220, 143, 0);
+}
+
+.btn-link-custom.active {
+  color: rgb(220, 143, 0);
+}

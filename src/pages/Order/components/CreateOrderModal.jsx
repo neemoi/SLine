@@ -7,10 +7,10 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
     const [paymentTypes, setPaymentTypes] = useState([]);
     const [selectedDelivery, setSelectedDelivery] = useState(null);
     const [selectedPaymentType, setSelectedPaymentType] = useState(null);
-    const [totalCost, setTotalCost] = useState(0);
+    const [productsCost, setProductsCost] = useState(0);
     const [deliveryCost, setDeliveryCost] = useState(0);
     const [paymentCommission, setPaymentCommission] = useState(0);
-    const [productsCost, setProductsCost] = useState(0);
+    const [totalCost, setTotalCost] = useState(0);
     const [deliveryError, setDeliveryError] = useState('');
     const [paymentError, setPaymentError] = useState('');
     const [orderError, setOrderError] = useState('');
@@ -40,7 +40,7 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
                     console.error(`Ошибка ${response.status}: ${response.statusText}`);
                 }
             } catch (error) {
-                console.error('Payment creation error:', error);
+                console.error('Error loading payment types:', error);
             }
         };
 
@@ -50,20 +50,19 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
 
     useEffect(() => {
         calculateProductsCost();
-    }, [groupedItems]);
+    }, [groupedItems, storeId]);
 
     const calculateProductsCost = () => {
-        let cost = 0;
+        let storeCost = 0;
 
-        if (groupedItems) {
-            for (const items of Object.values(groupedItems)) {
-                for (const item of items.items) {
-                    cost += item.price * item.quantity;
-                }
+        const itemsGroup = groupedItems[storeId];
+        if (itemsGroup) {
+            for (const item of itemsGroup.items) {
+                storeCost += item.price * item.quantity;
             }
         }
 
-        setProductsCost(cost.toFixed(2));
+        setProductsCost(storeCost.toFixed(2)); 
     };
 
     useEffect(() => {
@@ -76,7 +75,7 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
     };
 
     const handleDeliveryChange = (event) => {
-        setDeliveryError(''); 
+        setDeliveryError('');
         const selectedOption = deliveryOptions.find(option => option.deliveryId === parseInt(event.target.value));
 
         if (selectedOption) {
@@ -88,7 +87,7 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
     };
 
     const handlePaymentTypeChange = (event) => {
-        setPaymentError(''); 
+        setPaymentError('');
         const selectedType = paymentTypes.find(type => type.id === parseInt(event.target.value));
 
         if (selectedType) {
@@ -104,6 +103,7 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
             setDeliveryError('Пожалуйста, выберите вариант доставки');
             return;
         }
+
         if (!selectedPaymentType) {
             setPaymentError('Пожалуйста, выберите тип оплаты');
             return;
@@ -111,7 +111,7 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
 
         const orderData = {
             userId,
-            storeId: parseInt(storeId, 10),
+            storeId: parseInt(storeId),
             deliveryId: selectedDelivery ? selectedDelivery.deliveryId : null,
             paymentId: selectedPaymentType ? selectedPaymentType.id : null,
             statusId: 1,
@@ -132,11 +132,11 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
                 window.location.reload();
             } else {
                 const errorText = await response.text();
-                console.error(`Order creation error: ${response.status} - ${errorText}`);
+                console.error(`Ошибка создания заказа: ${response.status} - ${errorText}`);
                 setOrderError(`Ошибка создания заказа: ${response.statusText}`);
             }
         } catch (error) {
-            console.error('Order creation error:', error);
+            console.error('Ошибка создания заказа:', error);
             setOrderError('Произошла ошибка при создании заказа');
         }
     };
@@ -149,26 +149,34 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
             <Modal.Body>
                 <Row>
                     <Col md={6}>
-                    <Form.Group controlId="deliverySelect" style={{ marginBottom: '1rem' }}>
-                        <Form.Label style={{ fontWeight: 'bold', color: '#333' }}>Вариант доставки</Form.Label>
-                                <Form.Control as="select" value={selectedDelivery ? selectedDelivery.deliveryId : ''} onChange={handleDeliveryChange} style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#f9f9f9', color: '#333' }}>
-                                    <option value="">Выберите вариант</option>
-                                    {deliveryOptions.map(option => (
-                                        <option key={option.deliveryId} value={option.deliveryId}>
-                                            {`${option.deliveryType} (${option.deliveryTime} мин) - ${option.deliveryPrice.toFixed(2)} р.`}
-                                        </option>
-                                    ))}
-                                </Form.Control>
-                                {deliveryError && (
-                                    <Alert variant="danger" className="mt-2" style={{ marginTop: '0.5rem' }}>
-                                        {deliveryError}
-                                    </Alert>
-                                )}
-                            </Form.Group>
+                        <Form.Group controlId="deliverySelect">
+                            <Form.Label>Вариант доставки</Form.Label>
+                            <Form.Control
+                                as="select"
+                                value={selectedDelivery ? selectedDelivery.deliveryId : ''}
+                                onChange={handleDeliveryChange}
+                            >
+                                <option value="">Выберите вариант</option>
+                                {deliveryOptions.map(option => (
+                                    <option key={option.deliveryId} value={option.deliveryId}>
+                                        {`${option.deliveryType} (${option.deliveryTime} мин) - ${option.deliveryPrice.toFixed(2)} р.`}
+                                    </option>
+                                ))}
+                            </Form.Control>
+                            {deliveryError && (
+                                <Alert variant="danger" className="mt-2">
+                                    {deliveryError}
+                                </Alert>
+                            )}
+                        </Form.Group>
 
-                        <Form.Group controlId="paymentTypeSelect" style={{ marginBottom: '1rem' }}>
-                            <Form.Label style={{ fontWeight: 'bold', color: '#333' }}>Тип оплаты</Form.Label>
-                            <Form.Control as="select" value={selectedPaymentType ? selectedPaymentType.id : ''} onChange={handlePaymentTypeChange} style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#f9f9f9', color: '#333' }}>
+                        <Form.Group controlId="paymentTypeSelect">
+                            <Form.Label>Тип оплаты</Form.Label>
+                            <Form.Control
+                                as="select"
+                                value={selectedPaymentType ? selectedPaymentType.id : ''}
+                                onChange={handlePaymentTypeChange}
+                            >
                                 <option value="">Выберите вариант</option>
                                 {paymentTypes.map(type => (
                                     <option key={type.id} value={type.id}>
@@ -183,7 +191,7 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
                             )}
                         </Form.Group>
                     </Col>
-                    <div className="divider"></div>
+                    <div className="divider-ordermodal"></div>
                     <Col md={6} className="left-col">
                         <p>Стоимость товаров: {productsCost} р.</p>
                         <p>Стоимость доставки: {deliveryCost.toFixed(2)} р.</p>

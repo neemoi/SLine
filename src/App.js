@@ -11,6 +11,8 @@ import ProductDetails from './pages/Products/components/ProductDetails/ProductDe
 import AllProductsPage from './pages/Products/AllProductsPage.jsx';
 import CategoriesPage from './pages/Products/CategoriesPage.jsx';
 import BasketPage from './pages/Basket/BasketPage.jsx'; 
+import OrderPage from './pages/Order/OrderPage.jsx'; 
+import ProfilePage from './pages/Profile/ProfilePage.jsx'; 
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route path="/allProducts" element={<AllProductsPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/basket" element={<BasketPage />} />
+          <Route path="/orders" element={<OrderPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
         <Footer />
       </div>

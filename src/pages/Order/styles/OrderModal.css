@@ -1,8 +1,8 @@
-.divider {
+.divider-ordermodal {
     border-left: 1px solid #ccc; 
     height: 80%;
     position: absolute;
-    left: 50%;
+    left: 55%;
     top: 25px;
 }
 

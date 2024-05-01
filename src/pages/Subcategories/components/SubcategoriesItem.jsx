@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import SubcategoryNavigarion from './SubcategoryNavigarion.jsx';
+import SubcategoriesList from './SubcategoriesList.jsx';
 
-function SubcategoriesCards() {
+function SubcategoriesItem() {
     const { categoryId } = useParams(); 
     const [subcategories, setSubcategories] = useState([]);
     const [categoryName, setCategoryName] = useState('');
@@ -11,7 +13,7 @@ function SubcategoriesCards() {
             try {
                 const subcategoriesResponse = await fetch(`https://localhost:7036/Catalog/Categories/${categoryId}`);
                 const subcategoriesData = await subcategoriesResponse.json();
-                
+
                 const subcategoriesWithUrls = subcategoriesData.map(subcategory => ({
                     ...subcategory,
                     subcategoryImage: hexToString(subcategory.subcategoryImage)
@@ -32,7 +34,6 @@ function SubcategoriesCards() {
         };
 
         fetchSubcategoriesAndCategoryName();
-
         window.scrollTo(0, 0);
     }, [categoryId]);
 
@@ -45,44 +46,13 @@ function SubcategoriesCards() {
         return result;
     };
 
-    const splitIntoRows = (arr, size) => {
-        const rows = [];
-        for (let i = 0; i < arr.length; i += size) {
-            rows.push(arr.slice(i, i + size));
-        }
-        return rows;
-    };
-
     return (
         <div className="container" style={{ paddingTop: '50px', minHeight: 'calc(100vh - 200px)' }}>
-            <div className="mt-1 d-flex align-items-center">
-                <Link to="/" className="btn btn-link">Главная страница</Link>
-                <span className="mx-3">{'>'}</span>
-                <Link to="/" className="btn btn-link">Категории</Link>
-                <span className="mx-3">{'>'}</span>
-                <span>{categoryName}</span>
-            </div>
+            <SubcategoryNavigarion categoryName={categoryName} />
             <hr className="mt-1" />
-            <div className="container mt-5" id="all-subcategories">
-                {splitIntoRows(subcategories, 4).map((row, index) => (
-                    <div className="row row-cols-1 g-3 justify-content-center" key={index}>
-                        {row.map(subcategory => (
-                            <div key={subcategory.subcategoryId} className="col-md-3 mb-3">
-                                <Link to={`/products/${subcategory.subcategoryId}/${categoryId}`}> 
-                                    <div className="card">
-                                        <img src={subcategory.subcategoryImage} className="card-img-top" alt={subcategory.subcategoryName} />
-                                        <div className="card-img-overlay">
-                                            <p className="card-text">{subcategory.subcategoryName}</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))}
-                    </div>
-                ))}
-            </div>
+            <SubcategoriesList subcategories={subcategories} categoryId={categoryId} />
         </div>
     );
 }
 
-export default SubcategoriesCards;
+export default SubcategoriesItem;

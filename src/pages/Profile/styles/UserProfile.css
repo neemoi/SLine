@@ -1,0 +1,53 @@
+.container {
+    margin-top: 5rem;
+}
+
+h1 {
+    margin-bottom: 1.5rem;
+    color: #343a40;
+}
+
+.form-block { 
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.form-row > input {
+    width: 30%;
+    padding: 5px;
+}
+
+.form-row > input:not(:last-child) {
+    border-right: 1px solid #ccc;
+}
+
+.form-control:focus {
+    border-color: #ffa200;
+    box-shadow: none;
+}
+
+.form-button {
+    text-align: right;
+    margin-right: 30px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+.profile-top{
+    margin-top: 250px;
+}

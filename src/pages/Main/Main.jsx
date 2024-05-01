@@ -6,11 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Main() {
     return (
-        <>
+        <div className='main-page'>
             <BackgroundImq />
             <Categories />
             <InformationProduct />
-        </>
+        </div>
     );
 }
 

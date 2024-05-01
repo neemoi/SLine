@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import ProductDetailsNavigation from '../../components/ProductDetails/ProductDetailsNavigation.jsx';
+import AvailableStoresModal from '../../../Basket/components/CreateBasket/AvailableStoresModal.jsx';
+import NavbarAuthModal from '../../../../components/Navbar/NavbarAuthModal.jsx';
 import '../../styles/ProductDetails.css';
 
 function ProductDetails() {
@@ -10,28 +13,36 @@ function ProductDetails() {
     const [productName, setProductName] = useState('');
     const [minPrice, setMinPrice] = useState(null);
     const [maxPrice, setMaxPrice] = useState(null);
+    const [stores, setStores] = useState([]);
+    const [isInCart, setIsInCart] = useState(false);
+    const [showAuthModal, setShowAuthModal] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false); 
 
     useEffect(() => {
         const fetchProduct = async () => {
             try {
                 const response = await fetch(`https://localhost:7036/Catalog/Product/${productId}`);
                 const productData = await response.json();
-                
+
                 setProduct(productData);
-                setProductName(productData.productName); 
+                setProductName(productData.productName);
 
                 const categoryResponse = await fetch(`https://localhost:7036/Catalog/Categories`);
                 const categoryData = await categoryResponse.json();
                 const category = categoryData.find(cat => cat.subcategories.some(subcat => subcat.subcategoryId === parseInt(productData.subcategoryId)));
-                
+
                 if (category) {
                     setCategoryName(category.categoryName);
                 }
-                
+
                 const priceResponse = await fetch(`https://localhost:7036/Catalog/Warehouse/${productId}`);
                 const priceData = await priceResponse.json();
                 setMinPrice(priceData.minPrice);
                 setMaxPrice(priceData.maxPrice);
+
+                const storesResponse = await fetch(`https://localhost:7036/Catalog/Stores/${productId}`);
+                const storesData = await storesResponse.json();
+                setStores(storesData);
             } catch (error) {
                 console.error('Error fetching product:', error);
             }
@@ -39,6 +50,50 @@ function ProductDetails() {
 
         fetchProduct();
     }, [productId]);
+
+    const handleAddToCart = (event) => {
+        event.stopPropagation();
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (user) {
+            if (user.address) {
+                handleOpenModal(event);
+                setIsInCart(true);
+            } else {
+                alert('Пожалуйста, добавьте адрес доставки в ваш профиль');
+            }
+        } else {
+            handleShowAuthModal();
+        }
+    };
+
+    const fetchStores = async () => {
+        try {
+            const response = await fetch(`https://localhost:7036/Basket/AvailableStores/${product.productId}`);
+            if (response.ok) {
+                const data = await response.json();
+                setStores(data);
+            } else {
+                console.error('Failed to fetch stores:', response.status);
+            }
+        } catch (error) {
+            console.error('Error fetching stores:', error);
+        }
+    };
+    
+    const handleOpenModal = (event) => {
+        event.stopPropagation();
+        fetchStores();
+        setIsModalOpen(true); 
+    };
+
+    const handleShowAuthModal = () => {
+        setShowAuthModal(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false); 
+    };
 
     if (!product || minPrice === null || maxPrice === null) {
         return <div>Loading...</div>;
@@ -50,7 +105,7 @@ function ProductDetails() {
 
     return (
         <div className="container product-details-container mt-5">
-            <ProductDetailsNavigation goBack={goBack} categoryName={categoryName}  productName={productName} />
+            <ProductDetailsNavigation goBack={goBack} categoryName={categoryName} productName={productName} />
             <hr className="mt-1" />
             <h1 className="product-name mt-4">{product.productName}</h1>
             <div className="row">
@@ -61,10 +116,15 @@ function ProductDetails() {
                 </div>
                 <div className="col-md-6 mt-4 product-info-section">
                     <div className="product-info">
-                        <div className="inner-block mt-2">
+                        <div className="inner-block mt-5">
                             <div className="price-container d-flex">
                                 <p className="price-line">{minPrice}р. - {maxPrice}р.</p>
-                                <button className="btn btn-primary">В корзину</button>
+                                <Button
+                                    className={`btn rounded-pill w-30 ${isInCart ? 'btn-dark-orange' : 'btn-yellow'}`}
+                                    onClick={handleAddToCart}
+                                >
+                                    {isInCart ? 'В корзине' : 'В корзину'}
+                                </Button>
                             </div>
                         </div>
                         <h2 className='product-100-g mt-5'>На 100 граммов</h2>
@@ -86,7 +146,7 @@ function ProductDetails() {
                         <div className="product-info-labels"> 
                             <div className="product-info-label">ккал</div>
                             <div className="product-info-label">белки</div>
-                            <div className="product-info-label">жиры</div>
+                            <div class="product-info-label">жиры</div>
                             <div className="product-info-label">углеводы</div>
                         </div>
                     </div>
@@ -101,12 +161,20 @@ function ProductDetails() {
                         <p>Срок годности: {product.shelfLife} дней <p>Условия хранения: {product.storageConditions}</p></p>
                         <p className="product-info-title">Производитель</p>
                         <p>{product.manufacturer}</p>
-                    </div> 
-                    <div className="top"></div>
+                    </div>
                 </div>
             </div>
+            <AvailableStoresModal
+                isModalOpen={isModalOpen} 
+                closeModal={closeModal}
+                stores={stores}
+            />
+
+            <NavbarAuthModal show={showAuthModal} handleClose={() => setShowAuthModal(false)} />
+
+            <div className='top'></div>
         </div>
-    )    
+    );
 }
 
 export default ProductDetails;

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import ProductCard from '../Products/ProductCard';
-import '../../styles/AllProducts.css'; 
+import SearchBox from './SearchBox';
+import ProductList from './ProductList';
+import ScrollButton from './ScrollButton';
+import '../../styles/AllProducts.css';
 
-function AllProducts() {
+function AllProductsItem() {
     const [products, setProducts] = useState([]);
     const [searchInput, setSearchInput] = useState('');
 
@@ -24,8 +26,7 @@ function AllProducts() {
         };
 
         fetchAllProducts();
-
-        scrollToTop();
+        scrollToTop(); 
     }, []);
 
     useEffect(() => {
@@ -62,33 +63,22 @@ function AllProducts() {
     return (
         <div className="container mt-5">
             <div className="row">
-                <div className="col-md-8">
+                <div className="col-md-8 mt-3">
                     <h1 className="text-start">Все товары</h1>
                 </div>
                 <div className="col-md-4">
-                    <div className="search-box mt-2">
-                        <input
-                            type="text"
-                            value={searchInput}
-                            onChange={handleSearchInputChange}
-                            placeholder="Введите название товара"
-                            className="w-100"
-                        />
-                    </div>
+                    <SearchBox
+                        searchInput={searchInput}
+                        handleSearchInputChange={handleSearchInputChange}
+                    />
                 </div>
             </div>
             <hr className="mt-1" />
-            <div className="row row-cols-1 row-cols-md-4 g-3 justify-content-center mt-4">
-                {products.map(product => (
-                    <ProductCard key={product.productId} product={product} />
-                ))}
-            </div>
-            <button className="btn-floating" onClick={scrollToTop}>
-                <i className="fas fa-arrow-up"></i>
-            </button>
+            <ProductList products={products} />
+            <ScrollButton scrollToTop={scrollToTop} />
             <div className='all-products-top'></div>
         </div>
     );
 }
 
-export default AllProducts;
+export default AllProductsItem;

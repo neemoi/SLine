@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import NavbarAuthModal from '../../../../components/Navbar/NavbarAuthModal.jsx';
-import AvailableStoresModal from '../../../Basket/components/AvailableStoresModal.jsx';
+import AvailableStoresModal from '../../../Basket/components/CreateBasket/AvailableStoresModal.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/ProductsContainer.css';
 
@@ -82,7 +82,7 @@ function ProductCard({ product }) {
         <div className="col mb-3">
             <div className="card h-100 product-card">
                 <Link to={`/product/${product.productId}`} className="card-link">
-                    <div class="card-img-top-container">
+                    <div className="card-img-top-container">
                         <img src={product.image} className="card-img-top" alt={product.productName} />
                     </div>
                     <div className="card-body">

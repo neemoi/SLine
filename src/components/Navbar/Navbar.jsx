@@ -7,29 +7,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/Navbar.css';
 
 function Navbar() {
-    const [show, setShow] = useState(false);
+    const [showAuthModal, setShowAuthModal] = useState(false);
     const user = JSON.parse(localStorage.getItem('user'));
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleAuthModalClose = () => setShowAuthModal(false);
+    const handleAuthModalShow = () => setShowAuthModal(true);
 
     const handleLogout = () => {
         localStorage.removeItem('user');
         window.location.reload();
     };
 
-    const handleMenuItemClick = (path) => {
-        if (!user) {
-            setShow(true);
-        } else {
-            window.location.href = path;
-        }
-    };
-
     return (
         <nav className="navbar navbar-expand-lg navbar-light">
             <div className="container-fluid">
-                <NavLink className="navbar-brand ml-10" to="/">LOGO</NavLink>
+                <NavLink className="navbar-brand" to="/">LOGO</NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -46,13 +38,13 @@ function Navbar() {
                             <NavLink className="nav-link" to='/categories'>Категории</NavLink> 
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to='/basket' onClick={() => handleMenuItemClick('/basket')}>Корзина</NavLink>
+                            <NavLink className="nav-link" to='/basket'>Корзина</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to='/page3' onClick={() => handleMenuItemClick('/page3')}>Заказы</NavLink>
+                            <NavLink className="nav-link" to='/orders'>Заказы</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to='/page4' onClick={() => handleMenuItemClick('/page4')}>Профиль</NavLink>
+                            <NavLink className="nav-link" to='/profile'>Профиль</NavLink>
                         </li>
                         {user && user.role === 'Admin' && (
                             <li className="nav-item">
@@ -63,8 +55,8 @@ function Navbar() {
                 </div>
                 {!user ? (
                     <div className="navbar-nav ml-auto">
-                        <BoxArrowInRight size={24} onClick={handleShow} />
-                        <NavbarAuthModal show={show} handleClose={handleClose} />
+                        <BoxArrowInRight size={24} onClick={handleAuthModalShow} />
+                        <NavbarAuthModal show={showAuthModal} handleClose={handleAuthModalClose} />
                     </div>
                 ) : (
                     <div className="navbar-nav ml-auto">

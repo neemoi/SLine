@@ -1,9 +1,11 @@
-import Categories from './components/Categories/Categories.jsx';
+import CategoriesItem from './components/Categories/CategoriesItem.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function CategoriesPage() {
     return (
-            <Categories/>
+        <div className="category-page">
+            <CategoriesItem/>
+            </div>
     );
 }
 

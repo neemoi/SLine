@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Navigation from '../Products/Navigation.jsx';
+import ProductsNavigation from './ProductsNavigation.jsx';
 import ProductCard from '../Products/ProductCard.jsx';
 
 function ProductsContainer({ searchTerm }) {
@@ -53,7 +53,7 @@ function ProductsContainer({ searchTerm }) {
 
     return (
         <div className="container mt-3" id="all-products">
-            <Navigation goBack={goBack} categoryName={categoryName} subcategoryName={subcategoryName} />
+            <ProductsNavigation goBack={goBack} categoryName={categoryName} subcategoryName={subcategoryName} />
             <hr className="mt-1" />
             <div className="row row-cols-1 row-cols-md-3 g-3 justify-content-center mt-4">
                 {products.map(product => (

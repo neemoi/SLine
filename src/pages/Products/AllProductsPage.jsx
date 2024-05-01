@@ -1,9 +1,11 @@
-import AllProducts from './components/AllProducts/AllProducts.jsx';
+import AllProductsItem from './components/AllProducts/AllProductsItem.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function AllProductsPage() {
     return (
-            <AllProducts/>
+        <div className="allProduct-page">
+            <AllProductsItem/>
+            </div>
     );
 }
 

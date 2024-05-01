@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Alert } from 'react-bootstrap';
-import '../styles/AvailableStoresModal.css';
+import '../../styles/AvailableStoresModal.css';
 
 function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
   const [selectedQuantities, setSelectedQuantities] = useState({});
@@ -44,7 +44,7 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Продукт добавлен в корзину:', data);
+        console.log('The product has been added to the cart:', data);
       } else {
         const errorData = await response.json();
         setErrorMessage(errorData.message || response.statusText);
@@ -67,7 +67,7 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         {addressMissing && (
           <Alert variant="warning" onClose={handleCloseAlert} dismissible>
-            Пожалуйста, укажите адрес доставки перед добавлением товара в корзину.
+            Пожалуйста, укажите адрес доставки перед добавлением товара в корзину
           </Alert>
         )}
         {stores.map((store) => (

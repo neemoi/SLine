@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import CategoryList from './CategoryList.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../Main/styles/Categories.css';
 
-function Categories() {
+function CategoriesItem() {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -17,13 +18,13 @@ function Categories() {
                     categoryImage: hexToString(category.categoryImage)
                 }));
 
-                setCategories(categoriesWithUrls); 
+                setCategories(categoriesWithUrls);
             } catch (error) {
                 console.error('Error when getting categories:', error);
             }
         };
 
-        fetchCategories(); 
+        fetchCategories();
     }, []);
 
     const hexToString = hex => {
@@ -35,14 +36,6 @@ function Categories() {
         return result;
     };
 
-    const splitIntoRows = (arr, size) => {
-        const rows = [];
-        for (let i = 0; i < arr.length; i += size) {
-            rows.push(arr.slice(i, i + size));
-        }
-        return rows;
-    };
-
     return (
         <div className="container mt-5">
             <div className="mt-1 d-flex align-items-center">
@@ -51,28 +44,9 @@ function Categories() {
                 <Link to="/categories" className="btn btn-link">Категории</Link>
             </div>
             <hr className="mt-1" />
-            <div className="container mt-5">
-                <div className="container" id="categories">
-                {splitIntoRows(categories, 4).map((row, index) => (
-                    <div className="row justify-content-center" key={index}>
-                        {row.map((category, idx) => (
-                            <div className="col-md-3 mb-3" key={idx}>
-                                <Link to={`/subcategory/${category.categoryId}`}>
-                                    <div className="card">
-                                        <img src={category.categoryImage} className="card-img-top" alt={category.categoryName} />
-                                        <div className="card-img-overlay">
-                                            <p className="card-text">{category.categoryName}</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))}
-                    </div>
-                ))}
-            </div> 
-            </div>
+            <CategoryList categories={categories} />
         </div>
     );
 }
 
-export default Categories;
+export default CategoriesItem;
