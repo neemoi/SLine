@@ -64,6 +64,19 @@ function UserProfile() {
                 return;
             }
         }
+        
+        if (
+            formData.email !== profileData.email ||
+            formData.userName !== profileData.userName ||
+            formData.phoneNumber !== profileData.phoneNumber ||
+            formData.address !== profileData.address ||
+            formData.newPassword !== ''
+        ) {
+            if (formData.currentPassword.trim() === '') {
+                setError('Для изменения данных профиля введите текущий пароль');
+                return;
+            }
+        }
     
         try {
             const user = JSON.parse(localStorage.getItem('user'));
@@ -97,61 +110,87 @@ function UserProfile() {
     return (
         <div className="container mt-5">
             <h1>Профиль</h1>
-            <hr className='mt-1'></hr>
+            <hr className='mt-1' />
+
             {error && <div className="alert alert-danger">{error}</div>}
+
             <form className='mt-4' onSubmit={handleSubmit}>
                 <div className="form-block">
                     <div className="form-row">
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="form-control"
-                            placeholder="Email"
-                        />
-                        <input
-                            type="text"
-                            name="phoneNumber"
-                            value={formData.phoneNumber}
-                            onChange={handleChange}
-                            className="form-control"
-                            placeholder="Телефон"
-                        />
-                        <input
-                            type="password"
-                            name="currentPassword"
-                            value={formData.currentPassword}
-                            onChange={handleChange}
-                            className="form-control"
-                            placeholder="Текущий пароль"
-                        />
+                        <div className="form-group">
+                            <label htmlFor="email"></label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="form-control"
+                                placeholder="Email"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="phoneNumber"></label>
+                            <input
+                                type="text"
+                                name="phoneNumber"
+                                id="phoneNumber"
+                                value={formData.phoneNumber}
+                                onChange={handleChange}
+                                className="form-control"
+                                placeholder="Телефон"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="currentPassword"></label>
+                            <input
+                                type="password"
+                                name="currentPassword"
+                                id="currentPassword"
+                                value={formData.currentPassword}
+                                onChange={handleChange}
+                                className="form-control"
+                                placeholder="Текущий пароль"
+                            />
+                        </div>
                     </div>
                     <div className="form-row">
-                        <input
-                            type="text"
-                            name="userName"
-                            value={formData.userName}
-                            onChange={handleChange}
-                            className="form-control"
-                            placeholder="Имя пользователя"
-                        />
-                        <input
-                            type="text"
-                            name="address"
-                            value={formData.address}
-                            onChange={handleChange}
-                            className="form-control"
-                            placeholder="Адрес"
-                        />
-                        <input
-                            type="password"
-                            name="newPassword"
-                            value={formData.newPassword}
-                            onChange={handleChange}
-                            className="form-control"
-                            placeholder="Новый пароль"
-                        />
+                        <div className="form-group">
+                            <label htmlFor="userName"></label>
+                            <input
+                                type="text"
+                                name="userName"
+                                id="userName"
+                                value={formData.userName}
+                                onChange={handleChange}
+                                className="form-control"
+                                placeholder="Имя пользователя"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="address"></label>
+                            <input
+                                type="text"
+                                name="address"
+                                id="address"
+                                value={formData.address}
+                                onChange={handleChange}
+                                className="form-control"
+                                placeholder="Адрес"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="newPassword"></label>
+                            <input
+                                type="password"
+                                name="newPassword"
+                                id="newPassword"
+                                value={formData.newPassword}
+                                onChange={handleChange}
+                                className="form-control"
+                                placeholder="Новый пароль"
+                            />
+                        </div>
                     </div>
                     <div className="form-button">
                         <button type="submit" className="btn btn-primary">Обновить данные</button>

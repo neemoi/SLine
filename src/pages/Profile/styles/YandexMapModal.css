@@ -1,0 +1,15 @@
+.modal-content {
+    border-radius: 25px;
+  }
+  
+  .yandex-map-modal-container {
+    margin-top: 30px;
+    border-radius: 25px;
+    height: 400px;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .save-map-data {
+    margin-left: 20px;
+  }

@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import ProductDetailsNavigation from '../../components/ProductDetails/ProductDetailsNavigation.jsx';
 import AvailableStoresModal from '../../../Basket/components/CreateBasket/AvailableStoresModal.jsx';
 import NavbarAuthModal from '../../../../components/Navbar/NavbarAuthModal.jsx';
+import YandexMapModal from '../../../Profile/components/YandexMapModal.jsx';
 import '../../styles/ProductDetails.css';
 
 function ProductDetails() {
@@ -16,57 +17,81 @@ function ProductDetails() {
     const [stores, setStores] = useState([]);
     const [isInCart, setIsInCart] = useState(false);
     const [showAuthModal, setShowAuthModal] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isMapModalOpen, setMapModalOpen] = useState(false); 
 
     useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const response = await fetch(`https://localhost:7036/Catalog/Product/${productId}`);
-                const productData = await response.json();
-
-                setProduct(productData);
-                setProductName(productData.productName);
-
-                const categoryResponse = await fetch(`https://localhost:7036/Catalog/Categories`);
-                const categoryData = await categoryResponse.json();
-                const category = categoryData.find(cat => cat.subcategories.some(subcat => subcat.subcategoryId === parseInt(productData.subcategoryId)));
-
-                if (category) {
-                    setCategoryName(category.categoryName);
-                }
-
-                const priceResponse = await fetch(`https://localhost:7036/Catalog/Warehouse/${productId}`);
-                const priceData = await priceResponse.json();
-                setMinPrice(priceData.minPrice);
-                setMaxPrice(priceData.maxPrice);
-
-                const storesResponse = await fetch(`https://localhost:7036/Catalog/Stores/${productId}`);
-                const storesData = await storesResponse.json();
-                setStores(storesData);
-            } catch (error) {
-                console.error('Error fetching product:', error);
-            }
-        };
-
-        fetchProduct();
+        fetchProductData();
     }, [productId]);
 
-    const handleAddToCart = (event) => {
-        event.stopPropagation();
-        const user = JSON.parse(localStorage.getItem('user'));
+    const fetchProductData = async () => {
+        try {
+            const response = await fetch(`https://localhost:7036/Catalog/Product/${productId}`);
+            const productData = await response.json();
 
-        if (user) {
-            if (user.address) {
-                handleOpenModal(event);
-                setIsInCart(true);
-            } else {
-                alert('Пожалуйста, добавьте адрес доставки в ваш профиль');
+            setProduct(productData);
+            setProductName(productData.productName);
+
+            const categoryResponse = await fetch(`https://localhost:7036/Catalog/Categories`);
+            const categoryData = await categoryResponse.json();
+            const category = categoryData.find(cat => cat.subcategories.some(subcat => subcat.subcategoryId === parseInt(productData.subcategoryId)));
+            
+            if (category) {
+                setCategoryName(category.categoryName);
             }
-        } else {
-            handleShowAuthModal();
+
+            const priceResponse = await fetch(`https://localhost:7036/Catalog/Warehouse/${productId}`);
+            const priceData = await priceResponse.json();
+            setMinPrice(priceData.minPrice);
+            setMaxPrice(priceData.maxPrice);
+
+            const storesResponse = await fetch(`https://localhost:7036/Catalog/Stores/${productId}`);
+            const storesData = await storesResponse.json();
+            setStores(storesData);
+        } catch (error) {
+            console.error('Error fetching product data:', error);
         }
     };
 
+    const handleAddToCart = async (event) => {
+        event.stopPropagation();
+        const user = JSON.parse(localStorage.getItem('user'));
+        const userId = user ? user.id : null;
+
+        if (userId) {
+            try {
+                const response = await fetch(`https://localhost:7036/Profile/GetAllInfo?userId=${userId}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const hasAddress = !!data.address;
+
+                    if (hasAddress) {
+                        openAvailableStoresModal();
+                        setIsInCart(true);
+                    } else {
+                        openYandexMapModal();
+                    }
+                } else {
+                    console.error('Error fetching user info:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+            }
+        } else {
+            setShowAuthModal(true);
+        }
+    };
+
+    const openAvailableStoresModal = () => {
+        fetchStores();
+        setIsModalOpen(true);
+    };
+
+    const openYandexMapModal = () => {
+        setMapModalOpen(true);
+    };
+   
     const fetchStores = async () => {
         try {
             const response = await fetch(`https://localhost:7036/Basket/AvailableStores/${product.productId}`);
@@ -80,19 +105,13 @@ function ProductDetails() {
             console.error('Error fetching stores:', error);
         }
     };
-    
-    const handleOpenModal = (event) => {
-        event.stopPropagation();
-        fetchStores();
-        setIsModalOpen(true); 
-    };
-
-    const handleShowAuthModal = () => {
-        setShowAuthModal(true);
-    };
 
     const closeModal = () => {
-        setIsModalOpen(false); 
+        setIsModalOpen(false);
+    };
+
+    const closeMapModal = () => {
+        setMapModalOpen(false); 
     };
 
     if (!product || minPrice === null || maxPrice === null) {
@@ -107,7 +126,7 @@ function ProductDetails() {
         <div className="container product-details-container mt-5">
             <ProductDetailsNavigation goBack={goBack} categoryName={categoryName} productName={productName} />
             <hr className="mt-1" />
-            <h1 className="product-name mt-4">{product.productName}</h1>
+            <h1 className="product-details-name mt-4">{product.productName}</h1>
             <div className="row">
                 <div className="col-md-6 mt-5">
                     <div className="product-image-container mt-5">
@@ -158,21 +177,30 @@ function ProductDetails() {
                         <p className="product-info-title">Состав</p>
                         <p>{product.composition}</p>
                         <p className="product-info-title">Срок годности, условия хранения</p>
-                        <p>Срок годности: {product.shelfLife} дней <p>Условия хранения: {product.storageConditions}</p></p>
+                        <p>Срок годности: {product.shelfLife} дней</p>
+                        <p>Условия хранения: {product.storageConditions}</p>
                         <p className="product-info-title">Производитель</p>
                         <p>{product.manufacturer}</p>
                     </div>
                 </div>
             </div>
+            
             <AvailableStoresModal
-                isModalOpen={isModalOpen} 
+                isModalOpen={isModalOpen}
                 closeModal={closeModal}
                 stores={stores}
             />
 
-            <NavbarAuthModal show={showAuthModal} handleClose={() => setShowAuthModal(false)} />
+            <YandexMapModal
+                isOpen={isMapModalOpen}
+                onRequestClose={closeMapModal}
+                onAddressSaved={openAvailableStoresModal}
+            />
 
-            <div className='top'></div>
+            <NavbarAuthModal
+                show={showAuthModal}
+                handleClose={() => setShowAuthModal(false)}
+            />
         </div>
     );
 }

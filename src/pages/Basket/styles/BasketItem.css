@@ -11,12 +11,12 @@
 
 .store-header {
     display: flex;
-    justify-content: space-between; 
-    align-items: center; 
+    justify-content: space-between;
+    align-items: center;
 }
 
 .store-name {
-    margin-top: 15px;
+    margin-top: 25px;
     margin-left: 20px;
     font-size: 24px;
     font-weight: bold;
@@ -29,12 +29,12 @@
 }
 
 .order-button {
-    background-color: orange; 
-    color: rgb(51, 51, 51); 
+    background-color: orange;
+    color: rgb(51, 51, 51);
     border-radius: 20px;
     padding: 10px 50px;
-    border: none; 
-    margin-top: 10px; 
+    border: none;
+    margin-top: 10px;
     margin-right: 20px;
 }
 
@@ -44,27 +44,29 @@
 
 .basket-item {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; 
     align-items: center;
     margin-bottom: 10px;
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.btn{
+.btn {
     border-radius: 20px;
 }
 
 .item-info {
-    flex: 1;
-    margin-left: 10px;
-    margin-right: 10px;
+    flex: 1; 
+    padding-left: 40px;
 }
 
 .item-info p {
-    margin: 20px;
-    margin-top: 5px;
-    margin-bottom: 10px;
+    margin: 5px 0;
+}
+
+.product-basket-name {
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .item-actions {
@@ -74,23 +76,18 @@
     margin-right: 10px;
 }
 
-.item-actions input {
-    width: 50px;
-    margin-right: 10px;
-}
-
 .quantity-controls {
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
 }
 
 .quantity-button {
-    background-color: rgb(255, 255, 255); 
-    border: none; 
-    color: rgb(0, 0, 0);
-    padding: 2px 10px; 
-    border-radius: 10px; 
-    margin: 10px; 
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 2px 10px;
+    border-radius: 10px;
+    margin: 10px;
 }
 
 .quantity-value {
@@ -102,28 +99,56 @@
     background-color: darkorange;
 }
 
+.basket-product-image {
+    width: 17%; 
+    height: auto;
+    transition: transform 0.3s ease-in-out; 
+    margin-left: 50px;
+}
+
+.basket-product-image:hover {
+    transform: scale(1.1); 
+}
+
 .notification {
-    text-align: center; 
-    color: darkorange; 
-    transition: opacity 1s; 
-    opacity: 1; 
+    text-align: center;
+    color: darkorange;
+    opacity: 1;
+    transition: opacity 1s ease-out;
     margin-bottom: 10px;
 }
 
 .notification.hidden {
     opacity: 0; 
+    visibility: hidden; 
 }
 
 .empty-basket-notification {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60vh; 
-    text-align: center; 
+    height: 60vh;
+    text-align: center;
     font-size: 24px;
-    color: #333; 
+    color: #333;
 }
 
-.basket-buttom{
+.basket-bottom {
     margin-top: 400px;
+}
+
+.quantity-change-animation {
+    animation: pulse 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
