@@ -1,6 +1,7 @@
 .divider-ordermodal {
+    margin-top: 10px;
     border-left: 1px solid #ccc; 
-    height: 80%;
+    height: 70%;
     position: absolute;
     left: 55%;
     top: 25px;
@@ -30,4 +31,17 @@
     background-color: #f2dede; 
     padding: 8px; 
     border-radius: 4px; 
+}
+
+.indent-text {
+    padding-left: 10px;
+}
+
+.button-confirm-order{
+    margin-left: 600px;
+    margin-bottom: 20px;
+}
+
+.modal-parametrs-order{
+    margin-left: 270px;
 }

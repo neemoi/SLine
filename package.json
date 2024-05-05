@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@pbe/react-yandex-maps": "^1.2.5",
+    "@react-spring/core": "^9.7.3",
+    "@react-spring/web": "^9.7.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,6 +13,7 @@
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "framer-motion": "^11.1.7",
     "multi-geocoder": "^0.1.6",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
@@ -18,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.22.3",
+    "react-spring": "^9.7.3",
     "react-transition-group": "^4.4.5",
     "web-vitals": "^2.1.4"
   },

@@ -132,31 +132,34 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
                 window.location.reload();
             } else {
                 const errorText = await response.text();
-                console.error(`Ошибка создания заказа: ${response.status} - ${errorText}`);
                 setOrderError(`Ошибка создания заказа: ${response.statusText}`);
             }
         } catch (error) {
-            console.error('Ошибка создания заказа:', error);
-            setOrderError('Произошла ошибка при создании заказа');
+            console.error('Order creation error:', error);
         }
     };
 
     return (
         <Modal show={isOpen} onHide={onClose} centered size="lg">
             <Modal.Header closeButton>
-                <Modal.Title>Параметры заказа</Modal.Title>
+                <Modal.Title>
+                    <div className='modal-parametrs-order'>
+                        Параметры заказа    
+                    </div>
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Row>
+                <Row className='mt-3'>
                     <Col md={6}>
-                        <Form.Group controlId="deliverySelect">
-                            <Form.Label>Вариант доставки</Form.Label>
+                    <Form.Group controlId="deliverySelect">
+                        <Form.Label className="indent-text mt-2"></Form.Label>
                             <Form.Control
                                 as="select"
                                 value={selectedDelivery ? selectedDelivery.deliveryId : ''}
                                 onChange={handleDeliveryChange}
+                                className="indent-text"
                             >
-                                <option value="">Выберите вариант</option>
+                                <option value="">Вариант доставки</option>
                                 {deliveryOptions.map(option => (
                                     <option key={option.deliveryId} value={option.deliveryId}>
                                         {`${option.deliveryType} (${option.deliveryTime} мин) - ${option.deliveryPrice.toFixed(2)} р.`}
@@ -171,13 +174,13 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
                         </Form.Group>
 
                         <Form.Group controlId="paymentTypeSelect">
-                            <Form.Label>Тип оплаты</Form.Label>
+                            <Form.Label className="indent-text mt-2"></Form.Label>
                             <Form.Control
                                 as="select"
                                 value={selectedPaymentType ? selectedPaymentType.id : ''}
                                 onChange={handlePaymentTypeChange}
                             >
-                                <option value="">Выберите вариант</option>
+                                <option value="">Вариант оплаты</option>
                                 {paymentTypes.map(type => (
                                     <option key={type.id} value={type.id}>
                                         {`${type.type} - Комиссия: ${type.commission.toFixed(2)} р.`}
@@ -205,11 +208,9 @@ function OrderModal({ isOpen, onClose, storeId, userId, groupedItems }) {
                     </Alert>
                 )}
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="primary" onClick={handleOrderClick}>
+                <Button className='button-confirm-order' variant="primary" onClick={handleOrderClick}>
                     Оформить заказ
                 </Button>
-            </Modal.Footer>
         </Modal>
     );
 }
