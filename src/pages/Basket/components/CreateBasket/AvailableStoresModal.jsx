@@ -7,7 +7,6 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
     const [sortCriterion, setSortCriterion] = useState('price');
     const [selectedQuantities, setSelectedQuantities] = useState({});
     const [errorMessage, setErrorMessage] = useState(null);
-    const [addressMissing, setAddressMissing] = useState(false);
     const [userCity, setUserCity] = useState(null);
     const [showToast, setShowToast] = useState(false);
 
@@ -32,16 +31,15 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
                 if (response.ok) {
                     const data = await response.json();
                     const address = data.address || '';
-
+                    const cityMatch = address.match(/,\s*([^,]+),/);
                     const city = cityMatch ? cityMatch[1].trim() : null;
 
                     if (city) {
                         setUserCity(city);
-                    } else {
-                        setErrorMessage('В вашем городе нет магазинов с этим товаром(');
                     }
                 } else {
-                    console.log('Error loading user data');
+                    const errorData = await response.json();
+                    console.log(`Error loading user data: ${errorData.message}`);
                 }
             } catch (error) {
                 console.log(`Error loading user data: ${error.message}`);
@@ -52,18 +50,38 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
     }, []);
 
     useEffect(() => {
-        let filteredStores = stores;
-
         if (userCity) {
-            filteredStores = stores.filter(store =>
+            const storesInUserCity = stores.filter(store =>
                 store.city.trim().toLowerCase() === userCity.trim().toLowerCase()
             );
+    
+            if (storesInUserCity.length === 0) {
+                setErrorMessage('В вашем городе нет магазинов с этим товаром(');
+            } else {
+                setErrorMessage(null);
+            }
+    
+            let sortedStores = [...storesInUserCity];
+            switch (sortCriterion) {
+                case 'price':
+                    sortedStores.sort((a, b) => a.productPrice - b.productPrice);
+                    break;
+                case 'deliveryTime':
+                    sortedStores.sort((a, b) => a.deliveryTime - b.deliveryTime);
+                    break;
+                case 'deliveryPrice':
+                    sortedStores.sort((a, b) => a.deliveryPrice - b.deliveryPrice);
+                    break;
+                case 'quantity':
+                    sortedStores.sort((a, b) => b.quantity - a.quantity);
+                    break;
+                default:
+                    break;
+            }
+    
+            setSortedStores(sortedStores);
         }
-
-        filteredStores.sort((a, b) => a.productPrice - b.productPrice);
-        
-        setSortedStores(filteredStores);
-    }, [stores, userCity]);
+    }, [sortCriterion, stores, userCity]);
 
     const handleQuantityChange = (storeId, event) => {
         setSelectedQuantities((prevQuantities) => ({
@@ -79,7 +97,6 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
         const quantity = parseInt(selectedQuantities[store.storeId] || 1, 10);
 
         if (!user || !user.address) {
-            setAddressMissing(true);
             return;
         }
 
@@ -101,56 +118,23 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
             });
 
             if (response.ok) {
-                setShowToast(true); 
+                setShowToast(true);
 
                 setTimeout(() => {
                     closeModal();
                 }, 1000);
             } else {
                 const errorData = await response.json();
-                setErrorMessage(errorData.message || response.statusText);
+                console.log(`Error adding item to basket: ${errorData.message}`);
             }
         } catch (error) {
-            console.log(`Error when adding an item to the cart: ${error.message}`);
+            console.log(`Error when adding an item to the basket: ${error.message}`);
         }
-    };
-
-    const handleCloseAlert = () => {
-        setAddressMissing(false);
     };
 
     const handleSortChange = (event) => {
         setSortCriterion(event.target.value);
     };
-
-    useEffect(() => {
-        let filteredStores = stores;
-
-        if (userCity) {
-            filteredStores = stores.filter(store =>
-                store.city.trim().toLowerCase() === userCity.trim().toLowerCase()
-            );
-        }
-
-        switch (sortCriterion) {
-            case 'price':
-                filteredStores.sort((a, b) => a.productPrice - b.productPrice);
-                break;
-            case 'deliveryTime':
-                filteredStores.sort((a, b) => a.deliveryTime - b.deliveryTime);
-                break;
-            case 'deliveryPrice':
-                filteredStores.sort((a, b) => a.deliveryPrice - b.deliveryPrice);
-                break;
-            case 'quantity':
-                filteredStores.sort((a, b) => a.quantity - b.quantity);
-                break;
-            default:
-                break;
-        }
-
-        setSortedStores(filteredStores);
-    }, [sortCriterion, stores, userCity]);
 
     return (
         <>
@@ -163,18 +147,14 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-                    {addressMissing && (
-                        <Alert variant="warning" onClose={handleCloseAlert} dismissible>
-                            Пожалуйста, укажите адрес доставки перед добавлением товара в корзину.
-                        </Alert>
-                    )}
                     <select value={sortCriterion} onChange={handleSortChange} className="sort-dropdown">
                         <option value="price">Цена</option>
                         <option value="deliveryTime">Время доставки</option>
                         <option value="deliveryPrice">Цена доставки</option>
                         <option value="quantity">Количество</option>
                     </select>
+
+                    {errorMessage && <Alert variant="warning mt-3">{errorMessage}</Alert>}
 
                     <div className="store-list mt-4">
                         {sortedStores.map((store) => (
@@ -222,12 +202,11 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-            <ToastContainer position="bottom-end" className="custom-toast-container raised-bottom">
+            <ToastContainer
+                position="bottom-end"
+                className="custom-toast-container"
+                style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 1000 }}>
                 <Toast show={showToast} onClose={() => setShowToast(false)} delay={5000} autohide className="custom-toast">
-                    <Toast.Header closeButton={false}>
-                        <strong className="me-auto">Товар добавлен в корзину</strong>
-                    </Toast.Header>
                     <Toast.Body>Товар успешно добавлен в корзину</Toast.Body>
                 </Toast>
             </ToastContainer>

@@ -47,10 +47,11 @@ function SubcategoriesItem() {
     };
 
     return (
-        <div className="container" style={{ paddingTop: '50px', minHeight: 'calc(100vh - 200px)' }}>
+        <div className="container mt-5">
             <SubcategoryNavigarion categoryName={categoryName} />
             <hr className="mt-1" />
-            <SubcategoriesList subcategories={subcategories} categoryId={categoryId} />
+            <SubcategoriesList subcategories={subcategories} categoryId={categoryId}/>
+            <div style={{ marginBottom: '400px' }}></div>
         </div>
     );
 }

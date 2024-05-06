@@ -13,7 +13,7 @@ function SubcategoriesList({ subcategories, categoryId }) {
     return (
         <div className="container mt-5" id="all-subcategories">
             {splitIntoRows(subcategories, 4).map((row, index) => (
-                <div className="row row-cols-1 g-3 justify-content-center" key={index}>
+                <div className="row row-cols-1 g-3 justify-content-center mt-1" key={index}>
                     {row.map(subcategory => (
                         <SubcategoryCard key={subcategory.subcategoryId} subcategory={subcategory} categoryId={categoryId} />
                     ))}

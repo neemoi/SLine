@@ -58,3 +58,36 @@ button {
 .profile-top {
     margin-top: 250px;
 }
+
+.fade-enter {
+    opacity: 0;
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in-out;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+}
+
+.profile-bottom{
+    margin-bottom: 500px;
+}
+
+.profileAuth-bottom{
+    margin-bottom: 200px;
+}
+
+.alert-auth{
+    margin-top: 250px;
+    text-align: center;
+    font-size:x-large;
+    color: #676767;
+}

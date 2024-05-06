@@ -14,13 +14,18 @@ function BasketItem() {
     const [selectedStoreId, setSelectedStoreId] = useState(null);
 
     const user = JSON.parse(localStorage.getItem('user'));
-    const userId = user.id;
+    const userId = user ? user.id : null;
 
     async function fetchBasketItems() {
+        if (!user) {
+            showNotification();
+            return;
+        }
+
         try {
             const response = await fetch(`https://localhost:7036/Basket/BasketItems?userId=${userId}`, {
                 headers: {
-                    'Authorization': `Bearer ${user.token}`,
+                    'Authorization': `Bearer ${user ? user.token : ''}`,
                     'Content-Type': 'application/json',
                 },
             });
@@ -48,9 +53,11 @@ function BasketItem() {
                 setGroupedItems(grouped);
             } else {
                 console.error('Error fetching basket items:', response.status);
+                setNotification('Ошибка при загрузке товаров в корзину');
             }
         } catch (error) {
             console.error('Error fetching basket items:', error);
+            setNotification('Произошла ошибка при загрузке товаров в корзину');
         }
     }
 
@@ -73,7 +80,7 @@ function BasketItem() {
 
     useEffect(() => {
         fetchBasketItems();
-    }, []);
+    }, [userId]);
 
     const isBasketEmpty = Object.keys(groupedItems).length === 0;
 
@@ -85,33 +92,38 @@ function BasketItem() {
                         <h1>Корзина</h1>
                     </div>
                     <div className="col-md-6 text-end">
-                        <button className="btn btn-outline-danger mt-2" onClick={() => removeBasket(userId, user, setNotification, showNotification, fetchBasketItems)}>
-                            Очистить корзину
-                        </button>
+                            <button className="btn btn-outline-danger mt-2" onClick={() => removeBasket(userId, user, setNotification, showNotification, fetchBasketItems)}>
+                                Очистить корзину
+                            </button>
                     </div>
                 </div>
                 <hr className="mt-1" />
 
-                <BasketNotification notification={notification} isNotificationVisible={isNotificationVisible} />
+                <BasketNotification notification={notification} isVisible={isNotificationVisible} />
 
-                {isBasketEmpty && (
+                {isBasketEmpty && user ? (
                     <div className="empty-basket-notification">
                         Корзина пуста
                     </div>
+                ) : !user ? (
+                    <div className="empty-basket-notification">
+                        Авторизуйтесь для просмотра корзины
+                    </div>
+                ) : (
+                    Object.keys(groupedItems).map(storeId => (
+                        <BasketStoreSection
+                            key={storeId}
+                            storeId={storeId}
+                            groupedItems={groupedItems}
+                            onRemoveProduct={(storeId, productId) => removeProduct(user, userId, groupedItems, storeId, productId, setNotification, showNotification, fetchBasketItems)}
+                            onUpdateQuantity={(storeId, productId, quantity) => updateQuantityWithCheck(user, userId, storeId, productId, quantity, setNotification, showNotification, fetchBasketItems)}
+                            isRemoving={productId => isRemoving(storeId, productId)}
+                            openModal={openModal}
+                        />
+                    ))
                 )}
 
-                {Object.keys(groupedItems).map(storeId => (
-                    <BasketStoreSection
-                        key={storeId}
-                        storeId={storeId}
-                        groupedItems={groupedItems}
-                        onRemoveProduct={(storeId, productId) => removeProduct(user, userId, groupedItems, storeId, productId, setNotification, showNotification, fetchBasketItems)}
-                        onUpdateQuantity={(storeId, productId, quantity) => updateQuantityWithCheck(user, userId, storeId, productId, quantity, setNotification, showNotification, fetchBasketItems)}
-                        isRemoving={productId => isRemoving(storeId, productId)}
-                        openModal={openModal}
-                    />
-                ))}
-
+                {/* Модальное окно для создания заказа */}
                 {isModalOpen && (
                     <CreateOrderModal
                         isOpen={isModalOpen}
@@ -122,7 +134,7 @@ function BasketItem() {
                     />
                 )}
             </div>
-            <div className='basket-buttom'></div>
+            <div className="basket-bottom"></div>
         </div>
     );
 }

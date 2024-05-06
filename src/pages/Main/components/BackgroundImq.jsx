@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/BackgroundImq.css'
 
 function scrollToCategories() {
-    const categories = document.getElementById('all-categories');
+    const categories = document.getElementById('categories');
     categories.scrollIntoView({ behavior: 'smooth' });
 }
 

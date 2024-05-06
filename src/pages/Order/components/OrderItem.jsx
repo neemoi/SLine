@@ -16,12 +16,18 @@ function OrderItem() {
     const userId = user ? user.id : null;
 
     async function fetchOrders() {
+        if (!user) {
+            setNotification('Пожалуйста, войдите в систему, чтобы увидеть заказы');
+            showNotification();
+            return;
+        }
+        
         try {
             const response = await fetch(`https://localhost:7036/Order/GetOrders/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${user ? user.token : ''}`
+                    'Authorization': `Bearer ${user ? user.token : ''}`,
                 },
             });
 
@@ -30,6 +36,7 @@ function OrderItem() {
                 setOrders(data);
             } else {
                 console.error(`Error fetching orders: ${response.status}`);
+                setNotification('Ошибка при загрузке заказов');
                 showNotification();
             }
         } catch (error) {
@@ -40,6 +47,7 @@ function OrderItem() {
     }
 
     async function cancelOrder(orderId) {
+
         const confirmCancel = window.confirm('Вы уверены, что хотите отменить заказ?');
         if (!confirmCancel) {
             return;
@@ -57,7 +65,7 @@ function OrderItem() {
             if (response.ok) {
                 setNotification('Заказ отменен');
                 showNotification();
-                fetchOrders(); 
+                fetchOrders();
             } else {
                 console.error('Error canceling order:', response.status);
                 setNotification('Ошибка при отмене заказа');
@@ -80,7 +88,7 @@ function OrderItem() {
     function canCancelOrder(orderDate) {
         const orderTime = new Date(orderDate).getTime();
         const currentTime = new Date().getTime();
-        return currentTime - orderTime <= 600000; 
+        return currentTime - orderTime <= 600000; //10 min
     }
 
     useEffect(() => {
@@ -102,7 +110,11 @@ function OrderItem() {
 
                 <OrderNotification notification={notification} isVisible={isNotificationVisible} />
 
-                {sortedOrders.length === 0 ? (
+                {sortedOrders.length === 0 && !user ? (
+                    <div className="empty-orders">
+                        Авторизуйтесь для просмотр заказов
+                    </div>
+                ) : sortedOrders.length === 0 ? (
                     <div className="empty-orders">
                         У вас нет заказов
                     </div>

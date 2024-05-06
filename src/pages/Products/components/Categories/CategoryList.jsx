@@ -11,7 +11,7 @@ function CategoryList({ categories }) {
     };
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-1">
             <div className="container" id="categories">
                 {splitIntoRows(categories, 4).map((row, index) => (
                     <div className="row justify-content-center" key={index}>
@@ -21,6 +21,7 @@ function CategoryList({ categories }) {
                     </div>
                 ))}
             </div> 
+            <div className='bottom-categoryList'></div>
         </div>
     );
 }

@@ -25,10 +25,10 @@ function BasketItemComponent({ item, storeId, onRemoveProduct, onUpdateQuantity,
     }, [quantityChange]);
 
     return (
-        <div className={`basket-item ${isRemoving ? 'animate__animated animate__fadeOut' : ''}`}>
+        <div className={`basket-item ${isRemoving ? 'animate__animated animate__fadeOut' : ''} ${quantityChange ? 'quantity-change-animation' : ''}`}>
             <img src={imageUrl} alt={item.productName} className="basket-product-image" />
 
-            <div className={`item-info ${quantityChange ? 'quantity-change-animation' : ''}`}>
+            <div className="item-info">
                 <a href={productLink} className="product-link">
                     <span className="product-basket-name">{item.productName}</span>
                 </a>
@@ -38,26 +38,17 @@ function BasketItemComponent({ item, storeId, onRemoveProduct, onUpdateQuantity,
 
             <div className="item-actions">
                 <div className="quantity-controls">
-                    <button
-                        className="quantity-button"
-                        onClick={handleIncreaseQuantity}
-                    >
+                    <button className="quantity-button" onClick={handleIncreaseQuantity}>
                         +
                     </button>
                     <span className={`quantity-value ${quantityChange ? 'quantity-change-animation' : ''}`}>
                         {item.quantity}
                     </span>
-                    <button
-                        className="quantity-button"
-                        onClick={handleDecreaseQuantity}
-                    >
+                    <button className="quantity-button" onClick={handleDecreaseQuantity}>
                         -
                     </button>
                 </div>
-                <button
-                    className="btn btn-outline-dark"
-                    onClick={() => onRemoveProduct(storeId, item.productId)}
-                >
+                <button className="btn btn-outline-dark" onClick={() => onRemoveProduct(storeId, item.productId)}>
                     Убрать из корзины
                 </button>
             </div>
