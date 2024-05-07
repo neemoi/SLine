@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import ProductDetailsNavigation from '../../components/ProductDetails/ProductDetailsNavigation.jsx';
 import AvailableStoresModal from '../../../Basket/components/CreateBasket/AvailableStoresModal.jsx';
 import NavbarAuthModal from '../../../../components/Navbar/NavbarAuthModal.jsx';
-import YandexMapModal from '../../../Profile/components/YandexMapModal.jsx';
+import YandexMapModal from '../../../Profile/components/ModalMap/YandexMapModal.jsx';
 import '../../styles/ProductDetails.css';
 
 function ProductDetails() {

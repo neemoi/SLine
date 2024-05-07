@@ -123,7 +123,6 @@ function BasketItem() {
                     ))
                 )}
 
-                {/* Модальное окно для создания заказа */}
                 {isModalOpen && (
                     <CreateOrderModal
                         isOpen={isModalOpen}

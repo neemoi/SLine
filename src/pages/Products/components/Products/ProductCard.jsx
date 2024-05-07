@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import NavbarAuthModal from '../../../../components/Navbar/NavbarAuthModal';
 import AvailableStoresModal from '../../../Basket/components/CreateBasket/AvailableStoresModal';
-import YandexMapModal from '../../../Profile/components/YandexMapModal';
+import YandexMapModal from '../../../Profile/components/ModalMap/YandexMapModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/ProductsContainer.css';
 

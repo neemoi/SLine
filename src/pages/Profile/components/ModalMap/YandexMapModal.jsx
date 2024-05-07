@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import { YMaps, Map, Placemark, SearchControl, GeolocationControl } from '@pbe/react-yandex-maps';
-import '../styles/YandexMapModal.css';
+import '../../styles/YandexMapModal.css';
 
 function YandexMapModal({ isOpen, onRequestClose, onOpenStoresModal, onAddressSaved, setMapModalOpen }) {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -48,7 +48,7 @@ function YandexMapModal({ isOpen, onRequestClose, onOpenStoresModal, onAddressSa
 
     const getAddress = async (coords) => {
         try {
-            const response = await fetch(`https://geocode-maps.yandex.ru/1.x/?format=json&apikey=05ecec97-8672-45d1-b90c-53f0d9cb61d5&geocode=${coords[1]},${coords[0]}`);
+            const response = await fetch(`https://geocode-maps.yandex.ru/1.x/?format=json&apikey=cfb230c3-80ff-4d9b-bad6-e6e5a19d86c4&geocode=${coords[1]},${coords[0]}`);
             const data = await response.json();
             const geoObject = data.response.GeoObjectCollection.featureMember[0].GeoObject;
             const fullAddress = geoObject.metaDataProperty.GeocoderMetaData.Address.formatted;
@@ -114,7 +114,7 @@ function YandexMapModal({ isOpen, onRequestClose, onOpenStoresModal, onAddressSa
                 </button>
             </div>
           <div className="yandex-map-modal-container">
-            <YMaps query={{ apikey: '05ecec97-8672-45d1-b90c-53f0d9cb61d5', lang: 'ru_RU' }}>
+            <YMaps query={{ apikey: 'cfb230c3-80ff-4d9b-bad6-e6e5a19d86c4', lang: 'ru_RU' }}>
               <Map state={{ center: mapCenter, zoom: 15 }} style={{ height: '100%', width: '100%' }} onClick={handleMapClick}>
                 {markerPosition && (
                   <Placemark

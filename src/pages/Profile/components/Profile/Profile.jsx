@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import YandexMapModal from './YandexMapModal';
-import '../styles/Profile.css';
+import YandexMapModal from '../ModalMap/YandexMapModal';
+import '../../styles/Profile.css';
+import ProfileForm from './ProfileForm';
 
 function UserProfile() {
     const [profileData, setProfileData] = useState(null);
@@ -24,7 +25,7 @@ function UserProfile() {
         try {
             const isAuthenticated = checkAuth();
             if (!isAuthenticated) {
-                setError('Авторизуйтесь для просмотр заказов');
+                setError('Авторизуйтесь для просмотра заказов');
                 return;
             }
 
@@ -71,7 +72,7 @@ function UserProfile() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const errors = []; 
+        const errors = [];
 
         for (const key in formData) {
             if (formData[key].trim() === '') {
@@ -92,7 +93,7 @@ function UserProfile() {
         }
 
         if (errors.length > 0) {
-            setError(errors.join('; ')); 
+            setError(errors.join('; '));
             return;
         }
 
@@ -141,7 +142,7 @@ function UserProfile() {
 
             {error && (
                 <>
-                    {error.includes('Авторизуйтесь для просмотр заказов') ? (
+                    {error.includes('Авторизуйтесь для просмотра заказов') ? (
                         <div className='alert-auth'>
                             {error}
                         </div>
@@ -154,94 +155,12 @@ function UserProfile() {
             )}
 
             {profileData ? (
-                <form className='mt-5' onSubmit={handleSubmit}>
-                    <div className="form-block">
-                        <div className="form-row">
-                            <div className="form-group">
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    placeholder="Email"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    type="text"
-                                    name="phoneNumber"
-                                    id="phoneNumber"
-                                    value={formData.phoneNumber}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    placeholder="Телефон"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    type="password"
-                                    name="currentPassword"
-                                    id="currentPassword"
-                                    value={formData.currentPassword}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    placeholder="Текущий пароль"
-                                />
-                            </div>
-                        </div>
-                        <div className="form-row">
-                            <div className="form-group">
-                                <input
-                                    type="text"
-                                    name="userName"
-                                    id="userName"
-                                    value={formData.userName}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    placeholder="Имя пользователя"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    type="text"
-                                    name="address"
-                                    id="address"
-                                    value={formData.address}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    placeholder="Адрес"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    type="password"
-                                    name="newPassword"
-                                    id="newPassword"
-                                    value={formData.newPassword}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    placeholder="Новый пароль"
-                                />
-                            </div>
-                        </div>
-                        <div className="form-button">
-                            <div>
-                                <button
-                                    onClick={openModal}
-                                    className="btn btn-outline-secondary mt-4"
-                                >
-                                    Указать адрес на карте
-                                </button>
-                            </div>
-                            <button type="submit" className="btn btn-primary mt-2">
-                                Обновить данные
-                            </button>
-                        </div>
-                    </div>
-                    <div className='profileAuth-bottom'></div>
-                </form>
+                <ProfileForm
+                    formData={formData}
+                    handleSubmit={handleSubmit}
+                    handleChange={handleChange}
+                    openModal={openModal}
+                />
             ) : (
                 <div className='profile-bottom'></div>
             )}
