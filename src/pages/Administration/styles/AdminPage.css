@@ -1,0 +1,52 @@
+.table-container {
+    max-width: 80%;
+    margin: 0 auto; 
+}
+
+.admin-page {
+    padding: 20px;
+    text-align: center;
+}
+
+.admin-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.admin-card {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.admin-card-content {
+    padding: 10px;
+}
+
+.admin-card h3 {
+    margin: 0;
+}
+
+.admin-card p {
+    margin: 10px 0 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+.admin-category-bottom{
+    margin-bottom: 200px;
+}
+.admin-bottom{
+    margin-bottom: 400px;
+}

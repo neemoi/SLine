@@ -95,11 +95,6 @@ function ProductCard({ product }) {
         fetchPriceRange();
     }, [product.productId]);
 
-    const openStoresModal = () => {
-        fetchStores();
-        setModalOpen(true);
-    };
-
     return (
         <div className="col mb-3">
             <div className="card h-100 product-card">
@@ -107,14 +102,14 @@ function ProductCard({ product }) {
                     <div className="card-img-top-container">
                         <img src={product.image} className="card-img-top" alt={product.productName} />
                     </div>
-                    <div className="card-body">
-                        <h2 className="card-title">{product.productName}</h2>
-                        <h6 className="card-subtitle text-muted">Производитель: {product.manufacturer}</h6>
+                    <div class="card-body">
+                        <h2 class="card-title">{product.productName}</h2>
+                        <h6 class="card-subtitle text-muted">Производитель: {product.manufacturer}</h6>
                     </div>
                 </Link>
 
-                <div className="card-body">
-                    <h6 className="card-price">{`Цена: от ${priceRange.minPrice} до ${priceRange.maxPrice}р.`}</h6>
+                <div class="card-body">
+                    <h6 class="card-price">{`Цена: от ${priceRange.minPrice} до ${priceRange.maxPrice}р.`}</h6>
                     <Button
                         className={`btn rounded-pill w-100 ${isInCart ? 'btn-dark-orange' : 'btn-yellow'}`}
                         onClick={handleAddToCart}
@@ -132,9 +127,10 @@ function ProductCard({ product }) {
                 <YandexMapModal
                     isOpen={isMapModalOpen}
                     onRequestClose={() => setMapModalOpen(false)}
-                    onOpenStoresModal={openStoresModal}
-                    onAddressSaved={checkUserAddress}
                     setMapModalOpen={setMapModalOpen}
+                    onAddressSaved={() => {
+                        window.location.reload();
+                    }}
                 />
 
                 <NavbarAuthModal show={showAuthModal} handleClose={() => setShowAuthModal(false)} />

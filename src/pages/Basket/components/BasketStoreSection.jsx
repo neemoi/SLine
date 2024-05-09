@@ -4,6 +4,7 @@ import '../styles/BasketItem.css';
 
 function BasketStoreSection({ storeId, groupedItems, onRemoveProduct, onUpdateQuantity, isRemoving, openModal }) {
     return (
+        <>
         <div className="store-section animate__animated animate__fadeInUp">
             <div className="store-header">
                 <h1 className="store-name">
@@ -33,6 +34,7 @@ function BasketStoreSection({ storeId, groupedItems, onRemoveProduct, onUpdateQu
                 </React.Fragment>
             ))}
         </div>
+        </>
     );
 }
 

@@ -13,6 +13,8 @@ import CategoriesPage from './pages/Products/CategoriesPage.jsx';
 import BasketPage from './pages/Basket/BasketPage.jsx'; 
 import OrderPage from './pages/Order/OrderPage.jsx'; 
 import ProfilePage from './pages/Profile/ProfilePage.jsx'; 
+import AdminPage from './pages/Administration/AdminPage.jsx'; 
+import AdminCategory from './pages/Administration/components/Category/AdminCategory.jsx';
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
           <Route path="/basket" element={<BasketPage />} />
           <Route path="/orders" element={<OrderPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/category" element={<AdminCategory />} />
         </Routes>
         <Footer />
       </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Alert, ToastContainer, Toast } from 'react-bootstrap';
-import '../../styles/AvailableStoresModal.css';
+import '../../styles/AvailableStoresModal.css'; // Убедитесь, что путь к стилям корректный
 
 function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
     const [sortedStores, setSortedStores] = useState([]);
@@ -10,57 +10,68 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
     const [userCity, setUserCity] = useState(null);
     const [showToast, setShowToast] = useState(false);
 
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            const userString = localStorage.getItem('user');
-            const user = userString ? JSON.parse(userString) : null;
+    const fetchUserInfo = async () => {
+        console.log("Fetching user info...");
+        const userString = localStorage.getItem('user');
+        const user = userString ? JSON.parse(userString) : null;
 
-            if (!user) {
-                return;
-            }
+        if (!user) {
+            console.log('No user found in localStorage');
+            return;
+        }
 
-            try {
-                const response = await fetch(`https://localhost:7036/Profile/GetAllInfo?userId=${user.id}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${user.token}`,
-                    },
-                });
+        try {
+            const response = await fetch(`https://localhost:7036/Profile/GetAllInfo?userId=${user.id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    const address = data.address || '';
-                    const cityMatch = address.match(/,\s*([^,]+),/);
-                    const city = cityMatch ? cityMatch[1].trim() : null;
+            if (response.ok) {
+                const data = await response.json();
+                const address = data.address || '';
 
-                    if (city) {
-                        setUserCity(city);
-                    }
+                const addressParts = address.split(',');
+
+                if (addressParts.length > 0) {
+                    const city = addressParts[0].trim();
+                    console.log(`Extracted user city: ${city}`);
+                    setUserCity(city);
                 } else {
-                    const errorData = await response.json();
-                    console.log(`Error loading user data: ${errorData.message}`);
+                    console.log('Could not extract city from address');
                 }
-            } catch (error) {
-                console.log(`Error loading user data: ${error.message}`);
+            } else {
+                const errorData = await response.json();
+                console.log(`Error loading user data: ${errorData.message}`);
             }
-        };
+        } catch (error) {
+            console.log(`Error loading user data: ${error.message}`);
+        }
+    };
 
+    useEffect(() => {
         fetchUserInfo();
     }, []);
 
     useEffect(() => {
-        if (userCity) {
+        if (userCity && stores.length > 0) {
+            console.log('User city:', userCity);
+            console.log('Stores:', stores);
+
             const storesInUserCity = stores.filter(store =>
                 store.city.trim().toLowerCase() === userCity.trim().toLowerCase()
             );
-    
+
+            console.log('Stores in user city:', storesInUserCity);
+
             if (storesInUserCity.length === 0) {
                 setErrorMessage('В вашем городе нет магазинов с этим товаром(');
             } else {
                 setErrorMessage(null);
             }
-    
+
             let sortedStores = [...storesInUserCity];
             switch (sortCriterion) {
                 case 'price':
@@ -78,15 +89,16 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
                 default:
                     break;
             }
-    
+
             setSortedStores(sortedStores);
         }
     }, [sortCriterion, stores, userCity]);
 
     const handleQuantityChange = (storeId, event) => {
+        const value = parseInt(event.target.value, 10);
         setSelectedQuantities((prevQuantities) => ({
             ...prevQuantities,
-            [storeId]: event.target.value,
+            [storeId]: value > 0 ? value : 1,
         }));
     };
 
@@ -94,11 +106,12 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
         const userString = localStorage.getItem('user');
         const user = userString ? JSON.parse(userString) : null;
 
-        const quantity = parseInt(selectedQuantities[store.storeId] || 1, 10);
-
-        if (!user || !user.address) {
+        if (!user) {
+            console.log('No user found in localStorage');
             return;
         }
+
+        const quantity = selectedQuantities[store.storeId] || 1;
 
         const requestData = {
             userId: user.id,
@@ -119,7 +132,6 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
 
             if (response.ok) {
                 setShowToast(true);
-
                 setTimeout(() => {
                     closeModal();
                 }, 1000);
@@ -154,7 +166,9 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
                         <option value="quantity">Количество</option>
                     </select>
 
-                    {errorMessage && <Alert variant="warning mt-3">{errorMessage}</Alert>}
+                    {errorMessage && (
+                        <Alert variant="warning mt-3">{errorMessage}</Alert>
+                    )}
 
                     <div className="store-list mt-4">
                         {sortedStores.map((store) => (
@@ -179,7 +193,7 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
                                         <p>Количество: {store.quantity}шт</p>
                                     </div>
                                 </div>
-                                <div className="count-actions">
+                                <div className="count-actions mt-3">
                                     <input
                                         type="number"
                                         min="1"
@@ -187,7 +201,7 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
                                         onChange={(event) => handleQuantityChange(store.storeId, event)}
                                     />
                                 </div>
-                                <div className="store-actions">
+                                <div className="store-actions mt-2">
                                     <Button variant="primary" onClick={() => handleAddToBasket(store)}>
                                         Заказать
                                     </Button>
