@@ -15,11 +15,14 @@ import OrderPage from './pages/Order/OrderPage.jsx';
 import ProfilePage from './pages/Profile/ProfilePage.jsx'; 
 import AdminPage from './pages/Administration/AdminPage.jsx'; 
 import AdminCategory from './pages/Administration/components/Category/AdminCategory.jsx';
+import AdminSubcategory from './pages/Administration/components/Subcategory/AdminSubcategory.jsx';
+import AdminDelivery from './pages/Administration/components/Delivery/AdminDelivery.jsx';
+import AdminProduct from './pages/Administration/components/Product/AdminProduct.jsx';
 
 function App() {
   return (
     <Router>
-      <div>
+      <div> 
         <Navbar />
         <Routes>
           <Route path="/" element={<Main />} />
@@ -33,6 +36,9 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/category" element={<AdminCategory />} />
+          <Route path="/admin/subcategory" element={<AdminSubcategory />} />
+          <Route path="/admin/delivery" element={<AdminDelivery />} />
+          <Route path="/admin/product" element={<AdminProduct />} />
         </Routes>
         <Footer />
       </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import HeaderComponent from './HeaderComponent';
+import CategoryHeader from './CategoryHeader';
 import CategoryTable from './CategoryTable';
 import CategoryModal from './CategoryModal';
 import '../../styles/AdminPage.css';
@@ -58,7 +58,7 @@ function AdminCategory() {
     };
 
     const handleDelete = (categoryId) => {
-        if (window.confirm('Are you sure you want to delete this category?')) {
+        if (window.confirm('Вы уверены, что хотите удалить эту категорию?')) {
             fetch(`https://localhost:7036/DeleteCategory/${categoryId}`, {
                 method: 'DELETE',
             })
@@ -89,7 +89,7 @@ function AdminCategory() {
 
     return (
         <div className="table-container">
-            <HeaderComponent onAddCategory={() => handleShowModal()} />
+            <CategoryHeader onAddCategory={() => handleShowModal()} />
 
             <hr />
             

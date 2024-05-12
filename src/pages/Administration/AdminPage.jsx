@@ -36,6 +36,26 @@ function AdminPage() {
                     </Link>
                 </div>
             </div>
+            <div className="admin-cards">
+                <div className="admin-card">
+                    <Link to="/admin/delivery">
+                        <div className="admin-card-content">
+                            <h3>Доставка</h3>
+                            <p>Управление доставками</p>
+                        </div>
+                    </Link>
+                </div>
+            </div>
+            <div className="admin-cards">
+                <div className="admin-card">
+                    <Link to="/admin/product">
+                        <div className="admin-card-content">
+                            <h3>Продкуты</h3>
+                            <p>Управление продуктами</p>
+                        </div>
+                    </Link>
+                </div>
+            </div>
             <div className='admin-bottom'></div>
         </div>
     );
