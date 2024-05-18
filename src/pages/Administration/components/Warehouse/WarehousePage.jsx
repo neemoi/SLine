@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import WarehouseTable from './WarehouseTable';
 import WarehouseForm from './WarehouseForm';
 import PaginationComponent from './PaginationComponent';
-import SearchBar from './SearchBar';
+import WarehouseSearchBar from './WarehouseSearchBar';
 import '../../styles/AdminPage.css';
 
 function AdminWarehouses() {
@@ -204,7 +204,7 @@ function AdminWarehouses() {
                 </button>
             </div>
             <hr />
-            <SearchBar searchQuery={searchQuery} handleSearchChange={handleSearchChange} />
+            <WarehouseSearchBar searchQuery={searchQuery} handleSearchChange={handleSearchChange} />
             <WarehouseTable
                 warehouses={currentWarehouses}
                 stores={stores}

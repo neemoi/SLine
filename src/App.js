@@ -19,6 +19,7 @@ import AdminSubcategory from './pages/Administration/components/Subcategory/Admi
 import AdminDelivery from './pages/Administration/components/Delivery/AdminDelivery.jsx';
 import AdminProduct from './pages/Administration/components/Product/AdminProduct.jsx';
 import WarehousePage from './pages/Administration/components/Warehouse/WarehousePage.jsx';
+import StorePage from './pages/Administration/components/Store/StorePage.jsx';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/admin/delivery" element={<AdminDelivery />} />
           <Route path="/admin/product" element={<AdminProduct />} />
           <Route path="/admin/warehouse" element={<WarehousePage />} />
+          <Route path="/admin/store" element={<StorePage />} />
         </Routes>
         <Footer />
       </div>
