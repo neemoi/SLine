@@ -92,30 +92,29 @@ function AdminDeliveryOption() {
     const addDeliveryOption = () => {
         const errors = validateForm(currentOption);
         if (Object.keys(errors).length > 0) {
-          setCreateFormErrors(errors);
-          return;
+            setCreateFormErrors(errors);
+            return;
         }
-      
+
         fetch('https://localhost:7036/AddDeliveryOption', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(currentOption),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(currentOption),
         })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Error when adding a delivery option');
-            }
-            return response.json();
-          })
-          .then(() => {
-            handleCloseCreateModal();
-            fetchDeliveryOptions();
-          })
-          .catch(error => console.error('Error when adding a delivery option:', error));
-      };
-      
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error when adding a delivery option');
+                }
+                return response.json();
+            })
+            .then(() => {
+                handleCloseCreateModal();
+                fetchDeliveryOptions();
+            })
+            .catch(error => console.error('Error when adding a delivery option:', error));
+    };
 
     const updateDeliveryOption = () => {
         const errors = validateForm(currentOption);
@@ -213,6 +212,7 @@ function AdminDeliveryOption() {
                 renderSortIcon={renderSortIcon}
                 handleShowEditModal={handleShowEditModal}
                 handleDelete={handleDelete}
+                stores={stores}
             />
 
             <PaginationComponent

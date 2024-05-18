@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-function CategoryForm({ currentCategory, setCurrentCategory }) {
+function CategoryForm({ currentCategory, setCurrentCategory, errors }) {
     const handleChange = (e) => {
         const { id, value } = e.target;
         setCurrentCategory((prevCategory) => ({
@@ -18,7 +18,12 @@ function CategoryForm({ currentCategory, setCurrentCategory }) {
                     type="text"
                     value={currentCategory.categoryName || ''}
                     onChange={handleChange}
+                    isInvalid={!!errors.categoryName}
+                    style={{ width: '100%' }}
                 />
+                <Form.Control.Feedback type="invalid" style={{ color: 'red'}}>
+                    {errors.categoryName}
+                </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="categoryImage" className="mt-4" style={{ textAlign: 'center' }}>
@@ -27,7 +32,12 @@ function CategoryForm({ currentCategory, setCurrentCategory }) {
                     type="text"
                     value={currentCategory.categoryImage || ''}
                     onChange={handleChange}
+                    isInvalid={!!errors.categoryImage}
+                    style={{ width: '100%' }}
                 />
+                <Form.Control.Feedback type="invalid" style={{ color: 'red' }}>
+                    {errors.categoryImage}
+                </Form.Control.Feedback>
             </Form.Group>
         </Form>
     );

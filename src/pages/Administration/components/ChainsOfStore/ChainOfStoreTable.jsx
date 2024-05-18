@@ -2,7 +2,7 @@ import React from 'react';
 
 const ChainOfStoreTable = ({ chains, handleSort, deleteChain, handleShowModal }) => {
     return (
-        <table className="table table-hover mt-4">
+        <table className="table table-hover mt-5">
             <thead>
                 <tr>
                     <th onClick={() => handleSort('chainId')}>ID</th>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const ProductTable = ({ products, handleSort, currentPage, itemsPerPage, deleteProduct, handleShowModal }) => {
     return (
@@ -19,7 +20,11 @@ const ProductTable = ({ products, handleSort, currentPage, itemsPerPage, deleteP
                     {products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map(product => (
                         <tr key={product.productId}>
                             <td>{product.productId}</td>
-                            <td>{product.productName}</td>
+                            <td>
+                                <Link to={`/product/${product.productId}`}>
+                                    {product.productName}
+                                </Link>
+                            </td>
                             <td>{product.manufacturer}</td>
                             <td>{product.shelfLife} дн.</td>
                             <td>{product.calories} ккал.</td>

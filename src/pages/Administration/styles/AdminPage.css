@@ -65,3 +65,58 @@
 .chainofstore-bottom{
     margin-bottom: 200px;
 }
+
+.admin-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px;
+    text-align: center;
+}
+
+.admin-page h1 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.admin-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.admin-card {
+    background-color: #ffffff;
+    border: 1px solid #dfdfdf;
+    border-radius: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+    width: 350px;
+    cursor: pointer;
+}
+
+.admin-card:hover {
+    transform: translateY(-5px);
+}
+
+.admin-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.admin-card-content {
+    padding: 50px;
+}
+
+.admin-card-content h3 {
+    margin-bottom: 10px;
+    font-size: 1.25rem;
+    color: #e4ab00;
+}
+
+.admin-card-content p {
+    font-size: 1rem;
+    color: #6c757d;
+}

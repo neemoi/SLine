@@ -1,7 +1,10 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const WarehouseTable = ({ warehouses, stores, products, handleSort, deleteWarehouse, handleShowModal }) => {
+    const navigate = useNavigate();
+
     const getStoreNameById = (storeId) => {
         const store = stores.find(store => store.storeId === storeId);
         return store ? `${store.storeName}, ${store.city}, ${store.address}` : 'Магазин не найден';
@@ -10,6 +13,10 @@ const WarehouseTable = ({ warehouses, stores, products, handleSort, deleteWareho
     const getProductNameById = (productId) => {
         const product = products.find(product => product.productId === productId);
         return product ? product.productName : 'Продукт не найден';
+    };
+
+    const handleProductClick = (productId) => {
+        navigate(`/product/${productId}`);
     };
 
     return (
@@ -30,7 +37,11 @@ const WarehouseTable = ({ warehouses, stores, products, handleSort, deleteWareho
                         <tr key={warehouse.warehouseId}>
                             <td>{warehouse.warehouseId}</td>
                             <td>{getStoreNameById(warehouse.storeId)}</td>
-                            <td>{getProductNameById(warehouse.productId)}</td>
+                            <td 
+                                onClick={() => handleProductClick(warehouse.productId)}
+                            >
+                                {getProductNameById(warehouse.productId)}
+                            </td>
                             <td>{warehouse.quantity}ш.</td>
                             <td>{warehouse.productPrice}р.</td>
                             <td>

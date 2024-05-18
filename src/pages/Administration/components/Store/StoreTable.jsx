@@ -9,7 +9,7 @@ const StoreTable = ({ stores, chains, handleSort, deleteStore, handleShowModal }
 
     return (
         <div>
-            <Table striped bordered hover className="rounded-table">
+            <Table striped bordered hover className="rounded-table mt-5">
                 <thead>
                     <tr>
                         <th onClick={() => handleSort('storeId')}>ID</th>

@@ -26,6 +26,15 @@ function ChainsOfStoresPage() {
         fetchChains();
     }, []);
 
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || user.role !== 'Admin') {
+            navigate('/');
+        } else {
+            fetchChains();
+        }
+    }, [navigate]);
+
     const fetchChains = () => {
         fetch('https://localhost:7036/GetAllChainOfStore')
             .then(response => response.json())

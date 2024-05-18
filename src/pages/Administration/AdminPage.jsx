@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './styles/AdminPage.css';
 
@@ -11,12 +11,13 @@ function AdminPage() {
         if (!user || user.role !== 'Admin') {
             navigate('/');
         }
-    }, [navigate]); 
+    }, [navigate]);
 
     return (
         <div className="admin-page">
             <h1>Администрирование</h1>
-            <div className="admin-cards">
+            <hr className='mt-1' />
+            <div className="admin-cards-container mt-5">
                 <div className="admin-card">
                     <Link to="/admin/category">
                         <div className="admin-card-content">
@@ -25,8 +26,6 @@ function AdminPage() {
                         </div>
                     </Link>
                 </div>
-            </div>
-            <div className="admin-cards">
                 <div className="admin-card">
                     <Link to="/admin/subcategory">
                         <div className="admin-card-content">
@@ -35,8 +34,6 @@ function AdminPage() {
                         </div>
                     </Link>
                 </div>
-            </div>
-            <div className="admin-cards">
                 <div className="admin-card">
                     <Link to="/admin/delivery">
                         <div className="admin-card-content">
@@ -45,18 +42,14 @@ function AdminPage() {
                         </div>
                     </Link>
                 </div>
-            </div>
-            <div className="admin-cards">
                 <div className="admin-card">
                     <Link to="/admin/product">
                         <div className="admin-card-content">
-                            <h3>Продкуты</h3>
+                            <h3>Продукты</h3>
                             <p>Управление продуктами</p>
                         </div>
                     </Link>
                 </div>
-            </div>
-            <div className="admin-cards">
                 <div className="admin-card">
                     <Link to="/admin/warehouse">
                         <div className="admin-card-content">
@@ -65,8 +58,6 @@ function AdminPage() {
                         </div>
                     </Link>
                 </div>
-            </div>
-            <div className="admin-cards">
                 <div className="admin-card">
                     <Link to="/admin/store">
                         <div className="admin-card-content">
@@ -75,8 +66,6 @@ function AdminPage() {
                         </div>
                     </Link>
                 </div>
-            </div>
-            <div className="admin-cards">
                 <div className="admin-card">
                     <Link to="/admin/chainsStores">
                         <div className="admin-card-content">

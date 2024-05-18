@@ -142,6 +142,7 @@ function AdminSubCategory() {
                 handlePageChange={handlePageChange}
                 sortedSubCategories={sortedSubCategories}
                 itemsPerPage={itemsPerPage}
+                categories={categories}
             />
 
             <SubCategoryModal
