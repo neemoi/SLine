@@ -20,6 +20,7 @@ import AdminDelivery from './pages/Administration/components/Delivery/AdminDeliv
 import AdminProduct from './pages/Administration/components/Product/AdminProduct.jsx';
 import WarehousePage from './pages/Administration/components/Warehouse/WarehousePage.jsx';
 import StorePage from './pages/Administration/components/Store/StorePage.jsx';
+import ChainsOfStoresPage from './pages/Administration/components/ChainsOfStore/ChainsOfStoresPage.jsx';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path="/admin/product" element={<AdminProduct />} />
           <Route path="/admin/warehouse" element={<WarehousePage />} />
           <Route path="/admin/store" element={<StorePage />} />
+          <Route path="/admin/chainsStores" element={<ChainsOfStoresPage />} />
         </Routes>
         <Footer />
       </div>
