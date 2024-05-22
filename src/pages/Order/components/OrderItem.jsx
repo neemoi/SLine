@@ -57,7 +57,6 @@ function OrderItem() {
                 setOrders(data);
             } else {
                 console.error(`Error fetching orders: ${response.status}`);
-                showNotification('Ошибка при загрузке заказов');
             }
         } catch (error) {
             console.error('Error fetching orders:', error);

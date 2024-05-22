@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Alert, ToastContainer, Toast } from 'react-bootstrap';
-import '../../styles/AvailableStoresModal.css'; // Убедитесь, что путь к стилям корректный
+import '../../styles/AvailableStoresModal.css'; 
 
 function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
     const [sortedStores, setSortedStores] = useState([]);
@@ -11,7 +11,6 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
     const [showToast, setShowToast] = useState(false);
 
     const fetchUserInfo = async () => {
-        console.log("Fetching user info...");
         const userString = localStorage.getItem('user');
         const user = userString ? JSON.parse(userString) : null;
 
@@ -32,19 +31,12 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
             if (response.ok) {
                 const data = await response.json();
                 const address = data.address || '';
-
                 const addressParts = address.split(',');
 
                 if (addressParts.length > 0) {
                     const city = addressParts[0].trim();
-                    console.log(`Extracted user city: ${city}`);
                     setUserCity(city);
-                } else {
-                    console.log('Could not extract city from address');
                 }
-            } else {
-                const errorData = await response.json();
-                console.log(`Error loading user data: ${errorData.message}`);
             }
         } catch (error) {
             console.log(`Error loading user data: ${error.message}`);
@@ -57,14 +49,9 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
 
     useEffect(() => {
         if (userCity && stores.length > 0) {
-            console.log('User city:', userCity);
-            console.log('Stores:', stores);
-
             const storesInUserCity = stores.filter(store =>
                 store.city.trim().toLowerCase() === userCity.trim().toLowerCase()
             );
-
-            console.log('Stores in user city:', storesInUserCity);
 
             if (storesInUserCity.length === 0) {
                 setErrorMessage('В вашем городе нет магазинов с этим товаром(');
@@ -103,15 +90,18 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
     };
 
     const handleAddToBasket = async (store) => {
+        const quantity = selectedQuantities[store.storeId] || 1;
+        if (quantity > store.quantity) {
+            setErrorMessage(`Количество товара превышает доступное количество (${store.quantity} шт.)`);
+            return;
+        }
+
         const userString = localStorage.getItem('user');
         const user = userString ? JSON.parse(userString) : null;
 
         if (!user) {
-            console.log('No user found in localStorage');
             return;
         }
-
-        const quantity = selectedQuantities[store.storeId] || 1;
 
         const requestData = {
             userId: user.id,
@@ -135,9 +125,6 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
                 setTimeout(() => {
                     closeModal();
                 }, 1000);
-            } else {
-                const errorData = await response.json();
-                console.log(`Error adding item to basket: ${errorData.message}`);
             }
         } catch (error) {
             console.log(`Error when adding an item to the basket: ${error.message}`);
@@ -211,9 +198,9 @@ function AvailableStoresModal({ isModalOpen, closeModal, stores }) {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={closeModal}>
+                    <button variant="secondary" className='btn btn-outline-secondary' onClick={closeModal}>
                         Закрыть
-                    </Button>
+                    </button>
                 </Modal.Footer>
             </Modal>
             <ToastContainer
