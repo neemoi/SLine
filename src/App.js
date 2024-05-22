@@ -18,9 +18,11 @@ import AdminCategory from './pages/Administration/components/Category/AdminCateg
 import AdminSubcategory from './pages/Administration/components/Subcategory/AdminSubcategory.jsx';
 import AdminDelivery from './pages/Administration/components/Delivery/AdminDelivery.jsx';
 import AdminProduct from './pages/Administration/components/Product/AdminProduct.jsx';
-import WarehousePage from './pages/Administration/components/Warehouse/WarehousePage.jsx';
-import StorePage from './pages/Administration/components/Store/StorePage.jsx';
-import ChainsOfStoresPage from './pages/Administration/components/ChainsOfStore/ChainsOfStoresPage.jsx';
+import AdminWarehousePage from './pages/Administration/components/Warehouse/AdminWarehousePage.jsx';
+import AdminStorePage from './pages/Administration/components/Store/AdminStorePage.jsx';
+import AdminChainsOfStoresPage from './pages/Administration/components/ChainsOfStore/AdminChainsOfStoresPage.jsx';
+import StoresInformationPage from './pages/StoresInformation/AdminStoresInformationPage.jsx';
+import AdminUsersPage from './pages/Administration/components/Users/AdminUsersPage.jsx';
 
 function App() {
   return (
@@ -37,14 +39,16 @@ function App() {
           <Route path="/basket" element={<BasketPage />} />
           <Route path="/orders" element={<OrderPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/storesInformation" element={<StoresInformationPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/category" element={<AdminCategory />} />
           <Route path="/admin/subcategory" element={<AdminSubcategory />} />
           <Route path="/admin/delivery" element={<AdminDelivery />} />
           <Route path="/admin/product" element={<AdminProduct />} />
-          <Route path="/admin/warehouse" element={<WarehousePage />} />
-          <Route path="/admin/store" element={<StorePage />} />
-          <Route path="/admin/chainsStores" element={<ChainsOfStoresPage />} />
+          <Route path="/admin/warehouse" element={<AdminWarehousePage />} />
+          <Route path="/admin/store" element={<AdminStorePage />} />
+          <Route path="/admin/chainsStores" element={<AdminChainsOfStoresPage />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
         </Routes>
         <Footer />
       </div>

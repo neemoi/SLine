@@ -75,6 +75,7 @@ function SubcategoryMenu({ onSearchTermChange }) {
                     </li>
                 ))}
             </ul>
+            <div className='product-menu-bottom'></div>
         </nav>
     );
 }

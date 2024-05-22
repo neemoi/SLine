@@ -29,7 +29,7 @@ function Navbar() {
                 <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <NavLink className="nav-link" to='/page1'>О магазинах</NavLink>
+                            <NavLink className="nav-link" to='/storesInformation'>О магазинах</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to='/allProducts'>Все товары</NavLink>

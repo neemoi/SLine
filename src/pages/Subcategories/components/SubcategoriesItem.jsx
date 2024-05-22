@@ -51,7 +51,7 @@ function SubcategoriesItem() {
             <SubcategoryNavigarion categoryName={categoryName} />
             <hr className="mt-1" />
             <SubcategoriesList subcategories={subcategories} categoryId={categoryId}/>
-            <div style={{ marginBottom: '400px' }}></div>
+            <div style={{ marginBottom: '600px' }}></div>
         </div>
     );
 }

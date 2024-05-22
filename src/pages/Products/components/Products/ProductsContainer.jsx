@@ -60,6 +60,7 @@ function ProductsContainer({ searchTerm }) {
                     <ProductCard key={product.productId} product={product} />
                 ))}
             </div>
+            <div className='product-card-bottom'></div>
         </div>
     );
 }
