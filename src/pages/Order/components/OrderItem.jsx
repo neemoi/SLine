@@ -38,11 +38,6 @@ function OrderItem() {
     }, [orders]);
 
     async function fetchOrders() {
-        if (!user) {
-            showNotification('Пожалуйста, войдите в систему, чтобы увидеть заказы');
-            return;
-        }
-
         try {
             const response = await fetch(`https://localhost:7036/Order/GetOrders/${userId}`, {
                 method: 'GET',

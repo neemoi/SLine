@@ -23,6 +23,7 @@ import AdminStorePage from './pages/Administration/components/Store/AdminStorePa
 import AdminChainsOfStoresPage from './pages/Administration/components/ChainsOfStore/AdminChainsOfStoresPage.jsx';
 import StoresInformationPage from './pages/StoresInformation/AdminStoresInformationPage.jsx';
 import AdminUsersPage from './pages/Administration/components/Users/AdminUsersPage.jsx';
+import ResetPassword from './components/Navbar/ResetPassword.jsx';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
           <Route path="/admin/store" element={<AdminStorePage />} />
           <Route path="/admin/chainsStores" element={<AdminChainsOfStoresPage />} />
           <Route path="/admin/users" element={<AdminUsersPage />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
         <Footer />
       </div>
