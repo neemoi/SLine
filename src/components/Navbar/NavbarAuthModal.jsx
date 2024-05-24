@@ -12,6 +12,7 @@ function AuthModal({ show, handleClose }) {
     registerEmail: '',
     registerPassword: '',
     confirmPassword: '',
+    resetEmail: '',
     error: null,
   });
 
@@ -46,6 +47,34 @@ function AuthModal({ show, handleClose }) {
       localStorage.setItem('user', JSON.stringify(data));
       handleClose();
       window.location.reload();
+    } catch (error) {
+      setFormData({
+        ...formData,
+        error: 'Произошла ошибка. Пожалуйста, попробуйте еще раз.',
+      });
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('https://localhost:7036/Authorization/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: formData.resetEmail }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        setFormData({ ...formData, error: data.message });
+        return;
+      }
+
+      alert('Инструкция по сбросу пароля была отправлена на ваш email');
+      handleClose();
     } catch (error) {
       setFormData({
         ...formData,
@@ -164,7 +193,7 @@ function AuthModal({ show, handleClose }) {
                   className="form-control"
                   placeholder="Подтвердите пароль"
                   name="confirmPassword"
-                 value={formData.confirmPassword}
+                  value={formData.confirmPassword}
                   onChange={handleChange}
                 />
               </div>
@@ -172,6 +201,27 @@ function AuthModal({ show, handleClose }) {
                 Зарегистрироваться
               </button>
               {formData.error && <p className="text-danger mt-4">{formData.error}</p>}
+            </form>
+          </Tab>
+          <Tab eventKey="resetPassword" title="Забыли пароль?">
+            <form
+              className="mt-4 text-center"
+              onSubmit={handleResetPassword}
+            >
+              <div className="mb-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Введите ваш email"
+                  name="resetEmail"
+                  value={formData.resetEmail}
+                  onChange={handleChange}
+                />
+              </div>
+              <button type="submit" className="btn btn-outline-warning">
+                Восстановить пароль
+              </button>
+              {formData.error && <p className="text-danger mt-3">{formData.error}</p>}
             </form>
           </Tab>
         </Tabs>

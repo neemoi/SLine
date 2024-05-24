@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import YandexMapModal from '../ModalMap/YandexMapModal';
 import '../../styles/Profile.css';
 import ProfileForm from './ProfileForm';
+import Notification from '../Profile/Notification';
 
 function UserProfile() {
     const [profileData, setProfileData] = useState(null);
-    const [error, setError] = useState(null);
+    const [notification, setNotification] = useState({ message: '', type: '' });
     const [formData, setFormData] = useState({
         email: '',
         userName: '',
@@ -13,6 +14,7 @@ function UserProfile() {
         address: '',
         currentPassword: '',
         newPassword: '',
+        birthDate: '',
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,7 +27,7 @@ function UserProfile() {
         try {
             const isAuthenticated = checkAuth();
             if (!isAuthenticated) {
-                setError('Авторизуйтесь для просмотра заказов');
+                setNotification({ message: 'Авторизуйтесь для просмотра профиля'});
                 return;
             }
 
@@ -48,12 +50,13 @@ function UserProfile() {
                     address: data.address,
                     currentPassword: '',
                     newPassword: '',
+                    birthDate: data.birthDate || '',
                 });
             } else {
                 throw new Error(`Ошибка запроса: ${response.status}`);
             }
         } catch (error) {
-            setError(`Ошибка: ${error.message}`);
+            setNotification({ message: `Прозошла ошибка при загрузке профиля`});
         }
     };
 
@@ -69,31 +72,32 @@ function UserProfile() {
         }));
     };
 
+    const validateFields = () => {
+        const { currentPassword, newPassword, phoneNumber, email } = formData;
+        let isValid = true;
+        if (currentPassword !== newPassword) {
+            setNotification({ message: 'Пароли не совпадают', type: 'warning' });
+            isValid = false;
+        }
+        if (!/^\+375\d{9}$/.test(phoneNumber)) {
+            setNotification({ message: 'Неверный формат номера телефона (+375-00-000-00-00)', type: 'error' });
+            isValid = false;
+        }
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            setNotification({ message: 'Неверный формат адреса электронной почты', type: 'error' });
+            isValid = false;
+        }
+        if (newPassword && newPassword.length < 6) {
+            setNotification({ message: 'Минимальная длина пароля - 6 символов', type: 'warning' });
+            isValid = false;
+        }
+        return isValid;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const errors = [];
-
-        for (const key in formData) {
-            if (formData[key].trim() === '') {
-                errors.push(`Поле ${key} не может быть пустым`);
-            }
-        }
-
-        if (
-            formData.email !== profileData.email ||
-            formData.userName !== profileData.userName ||
-            formData.phoneNumber !== profileData.phoneNumber ||
-            formData.address !== profileData.address ||
-            formData.newPassword !== ''
-        ) {
-            if (formData.currentPassword.trim() === '') {
-                errors.push('Для изменения данных профиля введите текущий пароль');
-            }
-        }
-
-        if (errors.length > 0) {
-            setError(errors.join('; '));
+        if (!validateFields()) {
             return;
         }
 
@@ -114,16 +118,24 @@ function UserProfile() {
                 if (response.ok) {
                     const data = await response.json();
                     setProfileData(data);
-                    setError('Профиль успешно обновлен');
+                    setNotification({ message: 'Профиль успешно обновлен', type: 'success' });
                 } else {
-                    const errorData = await response.json();
-                    setError(`Ошибка при обновлении профиля: ${errorData.message}`);
+                    if (response.status === 400) {
+                        const errorData = await response.json();
+                        if (errorData.errors && errorData.errors.CurrentPassword) {
+                            setNotification({ message: 'Введенный текущий пароль неверен' });
+                        } else {
+                            setNotification({ message: `Ошибка при обновлении профиля`});
+                        }
+                    } else {
+                        setNotification({ message: `Ошибка при обновлении профиля` });
+                    }
                 }
             } else {
-                setError('Не удалось найти пользователя');
+                setNotification({ message: 'Не удалось найти пользователя'});
             }
         } catch (error) {
-            setError(`Ошибка при отправке запроса: ${error.message}`);
+            setNotification({ message: `Ошибка при отправке запроса` });
         }
     };
 
@@ -137,21 +149,15 @@ function UserProfile() {
 
     return (
         <div className="container mt-5">
-            <h1>Профиль</h1>
-            <hr className='mt-1' />
+            <h1 className="profile-title">Профиль</h1>
+            <hr className='profile-divider' />
 
-            {error && (
-                <>
-                    {error.includes('Авторизуйтесь для просмотра заказов') ? (
-                        <div className='alert-auth'>
-                            {error}
-                        </div>
-                    ) : (
-                        <div className="alert alert-danger">
-                            {error}
-                        </div>
-                    )}
-                </>
+            {notification.message && (
+                <Notification 
+                    message={notification.message}
+                    type={notification.type}
+                    clearNotification={() => setNotification({ message: '', type: '' })}
+                />
             )}
 
             {profileData ? (

@@ -103,7 +103,7 @@ function ResetPassword() {
 
   return (
     <div className="container mt-5">
-      <h2 className='mt-5 text-center'>Сброс пароля</h2>
+      <h2 className='mt-5'>Сброс пароля</h2>
       <hr />
       <form onSubmit={handleSubmit} className='mt-5'>
         <div className="row">
