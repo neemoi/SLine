@@ -77,10 +77,6 @@ button {
     transition: opacity 300ms ease-in-out;
 }
 
-.profile-bottom{
-    margin-bottom: 500px;
-}
-
 .profileAuth-bottom{
     margin-bottom: 200px;
 }
@@ -157,4 +153,21 @@ button {
 .form-group:hover {
     transform: translateY(-3px); 
     border-color: #ffa200; 
+}
+
+.profileInfo-bottom{
+    margin-bottom: 950px;
+}
+
+.not-authenticated-message-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 65vh;
+}
+
+.not-authenticated-message {
+    text-align: center;
+    color: #676767;
+    font-size: 24px;
 }

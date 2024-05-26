@@ -22,12 +22,12 @@ function UserProfile() {
         const user = JSON.parse(localStorage.getItem('user'));
         return user && user.token;
     };
+    const isAuthenticated = checkAuth();
 
     const fetchProfileData = async () => {
         try {
-            const isAuthenticated = checkAuth();
             if (!isAuthenticated) {
-                setNotification({ message: 'Авторизуйтесь для просмотра профиля'});
+                setNotification({ message: 'Авторизуйтесь для просмотра профиля', type: 'warning' });
                 return;
             }
 
@@ -56,7 +56,7 @@ function UserProfile() {
                 throw new Error(`Ошибка запроса: ${response.status}`);
             }
         } catch (error) {
-            setNotification({ message: `Прозошла ошибка при загрузке профиля`});
+            setNotification({ message: `Произошла ошибка при загрузке профиля` });
         }
     };
 
@@ -75,22 +75,28 @@ function UserProfile() {
     const validateFields = () => {
         const { currentPassword, newPassword, phoneNumber, email } = formData;
         let isValid = true;
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
         if (currentPassword !== newPassword) {
             setNotification({ message: 'Пароли не совпадают', type: 'warning' });
             isValid = false;
         }
+
+        if (!passwordPattern.test(newPassword)) {
+            setNotification({ message: 'Пароль должен содержать как минимум одну цифру, одну строчную букву, одну заглавную букву и быть длиной не менее 6 символов', type: 'warning' });
+            isValid = false;
+        }
+
         if (!/^\+375\d{9}$/.test(phoneNumber)) {
             setNotification({ message: 'Неверный формат номера телефона (+375-00-000-00-00)', type: 'error' });
             isValid = false;
         }
+
         if (!/^\S+@\S+\.\S+$/.test(email)) {
             setNotification({ message: 'Неверный формат адреса электронной почты', type: 'error' });
             isValid = false;
         }
-        if (newPassword && newPassword.length < 6) {
-            setNotification({ message: 'Минимальная длина пароля - 6 символов', type: 'warning' });
-            isValid = false;
-        }
+
         return isValid;
     };
 
@@ -160,21 +166,28 @@ function UserProfile() {
                 />
             )}
 
-            {profileData ? (
-                <ProfileForm
-                    formData={formData}
-                    handleSubmit={handleSubmit}
-                    handleChange={handleChange}
-                    openModal={openModal}
-                />
+            {isAuthenticated ? (
+                profileData ? (
+                    <ProfileForm
+                        formData={formData}
+                        handleSubmit={handleSubmit}
+                        handleChange={handleChange}
+                        openModal={openModal}
+                    />
+                ) : (
+                    <div className='profile-bottom'></div>
+                )
             ) : (
-                <div className='profile-bottom'></div>
+                <div className="not-authenticated-message">
+                    <p>Авторизуйтесь для просмотра профиля</p>
+                </div>
             )}
 
             <YandexMapModal
                 isOpen={isModalOpen}
                 onRequestClose={closeModal}
             />
+            <div className='profileInfo-bottom'></div>
         </div>
     );
 }

@@ -5,6 +5,7 @@ import NavbarAuthModal from './NavbarAuthModal';
 import { BoxArrowInRight } from 'react-bootstrap-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/Navbar.css';
+import LogoImage from '../../img/SLine.png';
 
 function Navbar() {
     const [showAuthModal, setShowAuthModal] = useState(false);
@@ -21,7 +22,9 @@ function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-light">
             <div className="container-fluid">
-                <NavLink className="navbar-brand" to="/">LOGO</NavLink>
+            <NavLink className="navbar-brand" to="/">
+                    <img src={LogoImage} alt="SLine" /> 
+                </NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
