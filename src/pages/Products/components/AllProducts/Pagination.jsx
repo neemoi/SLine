@@ -2,25 +2,31 @@ import React from 'react';
 
 function Pagination({ currentPage, totalProducts, pageSize, onPageChange }) {
     const totalPages = Math.ceil(totalProducts / pageSize);
+    const maxPagesToShow = 20;
 
     const handlePageChange = (page) => {
         onPageChange(page);
     };
 
+    const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+    const pages = Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+
     return (
         <nav className="d-flex justify-content-center mt-4">
             <ul className="pagination">
-                {Array.from({ length: totalPages }, (_, index) => (
+                {pages.map((page) => (
                     <li
-                        key={index}
-                        className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
+                        key={page}
+                        className={`page-item ${currentPage === page ? 'active' : ''}`}
                     >
                         <button
-                            className={`page-link ${currentPage === index + 1 ? 'bg-orange' : ''}`}
-                            style={{marginTop: '50px', marginBottom: '50px', color: 'black', backgroundColor: currentPage === index + 1 ? 'orange' : '' }}
-                            onClick={() => handlePageChange(index + 1)}
+                            className={`page-link ${currentPage === page ? 'bg-orange' : ''}`}
+                            style={{ marginTop: '50px', marginBottom: '50px', color: 'black', backgroundColor: currentPage === page ? 'orange' : '' }}
+                            onClick={() => handlePageChange(page)}
                         >
-                            {index + 1}
+                            {page}
                         </button>
                     </li>
                 ))}

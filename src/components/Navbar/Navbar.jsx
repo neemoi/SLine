@@ -5,6 +5,7 @@ import NavbarAuthModal from './NavbarAuthModal';
 import { BoxArrowInRight } from 'react-bootstrap-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/Navbar.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min'; 
 import LogoImage from '../../img/SLine.png';
 
 function Navbar() {

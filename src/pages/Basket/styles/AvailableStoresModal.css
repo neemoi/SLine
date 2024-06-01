@@ -214,10 +214,25 @@
 
 .custom-toast {
   background-color: #28a745; 
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 .custom-toast-header {
   background-color: #28a745; 
-  color: white; 
+  color: rgb(0, 0, 0); 
+}
+
+.toast-container {
+  z-index: 9999;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.toast-body {
+  background-color: #28a745;
+  color: #000000;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
 }

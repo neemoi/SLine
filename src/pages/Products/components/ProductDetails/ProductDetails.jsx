@@ -45,9 +45,6 @@ function ProductDetails() {
             setMinPrice(priceData.minPrice);
             setMaxPrice(priceData.maxPrice);
 
-            const storesResponse = await fetch(`https://localhost:7036/Catalog/Stores/${productId}`);
-            const storesData = await storesResponse.json();
-            setStores(storesData);
         } catch (error) {
             console.error('Error fetching product data:', error);
         }

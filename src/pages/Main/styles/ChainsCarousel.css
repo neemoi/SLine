@@ -1,0 +1,53 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.carousel-item {
+    height: 870px;
+    position: relative;
+}
+
+.carousel-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.carousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1;
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2; 
+    width: 75%; 
+}
+
+.carousel-caption h3 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.carousel-caption p {
+    width: 100%;
+    margin: 0 auto;
+    font-size: 1.2rem;
+}
+
+.carousel-caption .btn {
+    margin-top: 60px;
+}

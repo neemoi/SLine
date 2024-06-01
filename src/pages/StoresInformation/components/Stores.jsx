@@ -27,13 +27,18 @@ const Stores = () => {
         }
     };
 
-    const getChainDescription = (chainName) => {
+    const getChainInfo = (chainName) => {
         const chain = chains.find(c => c.chainName === chainName);
-        return chain ? chain.description : 'Описание не найдено';
+        return chain ? {
+            description: chain.description,
+            chainImage: convertImgurLink(chain.chainImage)
+        } : { description: 'Описание не найдено', chainImage: '' };
     };
 
-    const formatImageName = (name) => {
-        return name.toLowerCase().replace(/\s+/g, '_');
+    const convertImgurLink = (link) => {
+        if (!link) return '';
+        const imgurId = link.split('/').pop();
+        return `https://i.imgur.com/${imgurId}.jpg`;
     };
 
     const openMaps = (city, address) => {
@@ -48,9 +53,11 @@ const Stores = () => {
 
     const groupedStores = stores.reduce((acc, store) => {
         if (!acc[store.chain.chainName]) {
+            const chainInfo = getChainInfo(store.chain.chainName);
             acc[store.chain.chainName] = {
                 chainName: store.chain.chainName,
-                description: getChainDescription(store.chain.chainName),
+                description: chainInfo.description,
+                chainImage: chainInfo.chainImage,
                 stores: []
             };
         }
@@ -63,6 +70,13 @@ const Stores = () => {
             <h1 className="stores-page-title">Наши магазины</h1>
             {Object.keys(groupedStores).map(chainName => (
                 <div key={chainName} className="chain-card mt-5">
+                    {groupedStores[chainName].chainImage && (
+                        <img 
+                            src={groupedStores[chainName].chainImage} 
+                            alt={chainName} 
+                            className="chain-image" 
+                        />
+                    )}
                     <div className="chain-details">
                         <h2 className="chain-name mt-4">{chainName}</h2>
                         <p className="chain-description mt-2">{groupedStores[chainName].description}</p>

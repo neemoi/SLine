@@ -75,24 +75,26 @@ function UserProfile() {
     const validateFields = () => {
         const { currentPassword, newPassword, phoneNumber, email } = formData;
         let isValid = true;
-        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-        if (currentPassword !== newPassword) {
-            setNotification({ message: 'Пароли не совпадают', type: 'warning' });
-            isValid = false;
+        if (currentPassword || newPassword) {
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (currentPassword !== newPassword) {
+                setNotification({ message: 'Пароли не совпадают', type: 'warning' });
+                isValid = false;
+            }
+
+            if (!passwordPattern.test(newPassword)) {
+                setNotification({ message: 'Пароль должен содержать как минимум одну цифру, одну строчную букву, одну заглавную букву и быть длиной не менее 8 символов', type: 'warning' });
+                isValid = false;
+            }
         }
 
-        if (!passwordPattern.test(newPassword)) {
-            setNotification({ message: 'Пароль должен содержать как минимум одну цифру, одну строчную букву, одну заглавную букву и быть длиной не менее 6 символов', type: 'warning' });
-            isValid = false;
-        }
-
-        if (!/^\+375\d{9}$/.test(phoneNumber)) {
+        if (phoneNumber && !/^\+375\d{9}$/.test(phoneNumber)) {
             setNotification({ message: 'Неверный формат номера телефона (+375-00-000-00-00)', type: 'error' });
             isValid = false;
         }
 
-        if (!/^\S+@\S+\.\S+$/.test(email)) {
+        if (email && !/^\S+@\S+\.\S+$/.test(email)) {
             setNotification({ message: 'Неверный формат адреса электронной почты', type: 'error' });
             isValid = false;
         }
@@ -112,13 +114,20 @@ function UserProfile() {
             if (user && user.id) {
                 const userId = user.id;
 
+                const { currentPassword, newPassword, ...updatedFields } = formData;
+
+                const requestBody = {
+                    ...updatedFields,
+                    ...(currentPassword && newPassword && { currentPassword, newPassword }),
+                };
+
                 const response = await fetch(`https://localhost:7036/Profile/Edit?userId=${userId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${user.token}`,
                     },
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify(requestBody),
                 });
 
                 if (response.ok) {
@@ -131,14 +140,14 @@ function UserProfile() {
                         if (errorData.errors && errorData.errors.CurrentPassword) {
                             setNotification({ message: 'Введенный текущий пароль неверен' });
                         } else {
-                            setNotification({ message: `Ошибка при обновлении профиля`});
+                            setNotification({ message: `Ошибка при обновлении профиля` });
                         }
                     } else {
                         setNotification({ message: `Ошибка при обновлении профиля` });
                     }
                 }
             } else {
-                setNotification({ message: 'Не удалось найти пользователя'});
+                setNotification({ message: 'Не удалось найти пользователя' });
             }
         } catch (error) {
             setNotification({ message: `Ошибка при отправке запроса` });

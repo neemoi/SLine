@@ -8,7 +8,7 @@ function Footer() {
             <div className="container">
                 <div className="row">
                     <div className="col-md-6 mb-4 mb-md-0">
-                        <h4 className="mb-3" style={{ fontSize: '1rem' }}>LOGO</h4>
+                        <h4 className="mb-3" style={{ fontSize: '1rem' }}>SLine</h4>
                         <ul className="list-unstyled" style={{ fontSize: '0.8rem' }}>
                             <li className="mb-2">
                                 <Phone />+375-(00)-000-00-00
