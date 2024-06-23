@@ -1,70 +1,106 @@
-# Getting Started with Create React App
+# Marketplace for a chain of grocery stores
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[Go to marketplace](http://45.142.122.22/)
 
-## Available Scripts
+This repository contains code and documentation for the project "Automated information system for a chain of grocery stores", developed as part of the diploma project. The system is designed to manage orders and provide an online platform for grocery stores using modern hardware and software.
 
-In the project directory, you can run:
+## Project Overview
 
-### `npm start`
+The goal of the project is to develop a web application for managing orders and providing an online marketplace for a chain of grocery stores. The system provides functions such as user authentication, product management, order tracking, full system administration, etc.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Technologies
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Server part (Web API)
+- **Programming language**: C#
+- **Framework**: ASP.NET Core (8.0)
+- **Database**: PostgreSQL
+- **ORM**: EntityFrameworkCore
+- **Other tools**: AutoMapper, Identity (for authentication and authorization)
+- **Deploy**: Docker, Nginx, dedicated server
 
-### `npm test`
+### Client part (Frontend)
+- **Programming language**: JavaScript
+- **Framework**: React
+- **Styling**: Bootstrap, HTML/CSS
+- **Libraries**: YandexMaps
+- **Deploy**: Docker, Nginx, dedicated server
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation and configuration
 
-### `npm run build`
+### Prerequisites
+- Node.js
+- npm or yarn
+- Visual Studio 2022
+- Visual Studio Code
+- PostgreSQL
+- Docker
+- Nginx
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Setting up the server side (Web API)
+1. Clone the repository (app branch): `git clone https://github.com/neemoi/SLine-API.git`
+2. Go to the server part directory: `cd SLine-API`
+3. Install dependencies: `dotnet restore`
+4. Set up the database and configure environment variables.
+5. Build the Docker image: `docker build -t marketplace-backend .`
+6. Start the container: `docker run -d -p 5000:80 marketplace-backend`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Setting up the client side (Frontend)
+1. Clone the repository (dev branch): `git clone https://github.com/neemoi/SLine.git`
+2. Go to the client part directory: `cd SLine`
+3. Install dependencies: `npm install` or `yarn install` (Run `npm install react-icons animate.css @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @pbe/react-yandex-maps`)
+4. Build the Docker image: `docker build -t marketplace-frontend .`
+5. Start the container: `docker run -d -p 3000:80 marketplace-frontend`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Setting up Nginx
+1. Configure Nginx to reverse proxy requests to the server and client parts.
+2. Nginx configuration example:
 
-### `npm run eject`
+   ```nginx
+   user nginx;
+   worker_processes auto;
+   error_log /var/log/nginx/error.log;
+   pid /run/nginx.pid;
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   events {
+       worker_connections 1024;
+   }
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   http {
+       include /etc/nginx/mime.types;
+       default_type application/octet-stream;
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+       log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                       '$status $body_bytes_sent "$http_referer" '
+                       '"$http_user_agent" "$http_x_forwarded_for"';
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+       access_log /var/log/nginx/access.log main;
 
-## Learn More
+       sendfile on;
+       tcp_nopush on;
+       tcp_nodelay on;
+       keepalive_timeout 65;
+       types_hash_max_size 2048;
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+       include /etc/nginx/conf.d/*.conf;
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+       server {
+           listen 80;
+           server_name server_name;
 
-### Code Splitting
+           location /api {
+               proxy_pass http://slinedeploy-storelineapi-1:8080;
+               proxy_set_header Host $host;
+               proxy_set_header X-Real-IP $remote_addr;
+               proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+               proxy_set_header X-Forwarded-Proto $scheme;
+           }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+           location / {
+               proxy_pass http://slinedeploy-storelineclient-1:3000;
+               proxy_set_header Host $host;
+               proxy_set_header X-Real-IP $remote_addr;
+               proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+               proxy_set_header X-Forwarded-Proto $scheme;
+           }
+       }
+   }
