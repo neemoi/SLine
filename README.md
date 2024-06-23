@@ -2,9 +2,11 @@
 
 [Go to marketplace](http://45.142.122.22/)
 
-## Project overview
-
 This repository contains code and documentation for the project "Automated information system for a chain of grocery stores", developed as part of the diploma project. The system is designed to manage orders and provide an online platform for grocery stores using modern hardware and software.
+
+## Project Overview
+
+The goal of the project is to develop a web application for managing orders and providing an online marketplace for a chain of grocery stores. The system provides functions such as user authentication, product management, order tracking, full system administration, etc.
 
 ## Technologies
 
